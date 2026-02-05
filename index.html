@@ -1,28 +1,1342 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome Shop</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VibeShop | 홈</title>
+  <meta name="description" content="가볍고 빠른 쇼핑몰 홈페이지 예시" />
+  <style>
+    :root{
+      --bg:#0b0f19;
+      --card:#111827;
+      --card2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.08);
+      --brand:#7c3aed;
+      --brand2:#22c55e;
+      --danger:#ef4444;
+      --warning:#f59e0b;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius2:22px;
+      --max:1200px;
+    }
+
+    /* 라이트 모드 */
+    :root[data-theme="light"]{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --card2:#f1f5f9;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:rgba(2,6,23,.10);
+      --shadow: 0 12px 30px rgba(2,6,23,.10);
+    }
+    :root[data-theme="light"] body{
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(124,58,237,.12), transparent 60%),
+        radial-gradient(1000px 500px at 95% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 600px at 50% 110%, rgba(59,130,246,.08), transparent 55%),
+        var(--bg);
+    }
+    :root[data-theme="light"] .topbar{ background: rgba(246,247,251,.75); }
+    :root[data-theme="light"] .search{
+      background: rgba(2,6,23,.04);
+      border-color: rgba(2,6,23,.10);
+    }
+    :root[data-theme="light"] .iconbtn,
+    :root[data-theme="light"] .btn,
+    :root[data-theme="light"] .mini-card,
+    :root[data-theme="light"] .card,
+    :root[data-theme="light"] .select,
+    :root[data-theme="light"] .toggle,
+    :root[data-theme="light"] .qty{
+      background: rgba(2,6,23,.03);
+      border-color: rgba(2,6,23,.10);
+    }
+    :root[data-theme="light"] .drawer{ background: rgba(255,255,255,.92); }
+    :root[data-theme="light"] .backdrop{ background: rgba(2,6,23,.45); }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", Arial, "맑은 고딕", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(1000px 500px at 95% 10%, rgba(34,197,94,.16), transparent 60%),
+        radial-gradient(900px 600px at 50% 110%, rgba(59,130,246,.12), transparent 55%),
+        var(--bg);
+      line-height:1.35;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .container{max-width:var(--max); margin:0 auto; padding:0 18px}
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,25,.7);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 0;
+  flex-wrap: wrap;              /* ✅ 공간 부족 시 자연스럽게 줄바꿈 */
+}
+
+   .logo{
+  display:flex; align-items:center; gap:10px; font-weight:800;
+  user-select:none;
+  min-width: 120px;             /* (기존 148px → 120px로 완화) */
+  flex: 0 0 auto;
+}
+
+    .logo-mark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), #2563eb);
+      box-shadow: 0 10px 20px rgba(124,58,237,.25);
+      position:relative;
+    }
+    .logo-mark::after{
+      content:"";
+      position:absolute; inset:9px;
+      border-radius:10px;
+      background: rgba(255,255,255,.18);
+      transform: rotate(18deg);
+    }
+    .nav{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      flex-wrap:wrap;
+    }
+    .nav a{
+      padding:10px 10px;
+      border-radius:12px;
+      transition:.15s ease;
+      border:1px solid transparent;
+    }
+    .nav a:hover{
+      color:var(--text);
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    /* Search */
+    .search{
+  flex: 1 1 420px;              /* ✅ 검색창이 유연하게 늘/줄 */
+  min-width: 240px;             /* ✅ 너무 작아지지 않게 */
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px;
+  background: rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius: 999px;
+}
+
+   .search input{
+  min-width: 0;                 /* ✅ flex 안에서 input이 넘치며 UI 깨지는 걸 방지 */
+  flex:1;
+  border:0;
+  outline:0;
+  background: transparent;
+  color:var(--text);
+  font-size:14px;
+}
+
+    .search .kbd{
+      font-size:12px;
+      color:var(--muted);
+      padding:5px 8px;
+      border:1px solid rgba(255,255,255,.10);
+      border-bottom-color: rgba(255,255,255,.18);
+      border-radius:10px;
+      background: rgba(255,255,255,.03);
+    }
+
+    /* Actions */
+    .actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex: 0 0 auto;               /* ✅ 우측 버튼 영역이 필요 이상으로 줄지 않게 */
+}
+
+    .iconbtn{
+      position:relative;
+      display:inline-flex; align-items:center; justify-content:center;
+      width:42px; height:42px;
+      border-radius:14px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      transition:.15s ease;
+      cursor:pointer;
+      color:var(--text);
+    }
+    .iconbtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+    .badge{
+      position:absolute;
+      top:-6px; right:-6px;
+      min-width: 20px; height:20px;
+      padding:0 6px;
+      border-radius:999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: var(--brand);
+      border: 1px solid rgba(255,255,255,.25);
+      font-size:12px;
+      font-weight:700;
+      box-shadow: 0 10px 20px rgba(124,58,237,.25);
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 14px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+      transition:.15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--brand), #2563eb);
+      border-color: transparent;
+      box-shadow: 0 12px 26px rgba(124,58,237,.22);
+    }
+    .btn.primary:hover{filter: brightness(1.04)}
+    .btn.ghost{
+      background: transparent;
+      border-color: rgba(255,255,255,.12);
+    }
+    .btn.small{padding:10px 12px; font-size:13px; border-radius:14px}
+
+    /* Account area */
+   .account{
+  max-width: 170px;             /* ✅ 240px → 170px로 줄여서 압박 완화 */
+  padding: 10px 12px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: none;                /* 로그인 시 JS에서 block으로 바뀜 */
+  align-items: center;          /* ✅ inline-flex 느낌 */
+}
+
+    .account strong{color: var(--text)}
+
+    /* Hero */
+    .hero{ padding: 22px 0 10px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+    }
+    .hero-main{
+      border-radius: var(--radius2);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(900px 400px at 20% 20%, rgba(124,58,237,.22), transparent 55%),
+        radial-gradient(800px 400px at 90% 10%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position:relative;
+      min-height: 260px;
+    }
+    .hero-main h1{
+      margin: 0 0 10px;
+      font-size: clamp(22px, 3.2vw, 36px);
+      line-height: 1.12;
+      letter-spacing: -.2px;
+    }
+    .hero-main p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      max-width: 56ch;
+      font-size: 14.5px;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin: 12px 0 18px}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .dot{width:8px; height:8px; border-radius:99px; background: var(--brand2); box-shadow: 0 0 0 4px rgba(34,197,94,.10)}
+    .hero-cta{display:flex; gap:10px; flex-wrap:wrap}
+    .hero-art{
+      position:absolute;
+      right: -40px; bottom: -30px;
+      width: 280px; height: 220px;
+      border-radius: 32px;
+      background:
+        radial-gradient(70px 70px at 30% 30%, rgba(255,255,255,.22), transparent 60%),
+        radial-gradient(120px 120px at 60% 60%, rgba(255,255,255,.14), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      transform: rotate(-10deg);
+      opacity:.95;
+    }
+
+    .hero-side{
+      display:grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+    }
+    .mini-card{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .mini-title{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
+    .mini-title h3{margin:0; font-size: 15px}
+    .mini-title span{color:var(--muted); font-size: 12.5px}
+    .deals{display:grid; gap:10px}
+    .deal{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding: 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .deal .left{display:flex; flex-direction:column; gap:4px}
+    .deal .name{font-weight:700; font-size: 13.5px}
+    .deal .desc{color:var(--muted); font-size: 12.5px}
+    .pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight:800;
+      font-size: 12px;
+      background: rgba(124,58,237,.14);
+      border: 1px solid rgba(124,58,237,.35);
+      color: #d8b4fe;
+      white-space:nowrap;
+    }
+    .pill.hot{
+      background: rgba(245,158,11,.14);
+      border-color: rgba(245,158,11,.35);
+      color: #fde68a;
+    }
+
+    /* Section header */
+    .section{ padding: 14px 0 26px; }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      margin: 8px 0 14px;
+    }
+    .section-head h2{margin:0; font-size: 18px}
+    .section-head p{margin:0; color:var(--muted); font-size: 13px}
+
+    /* Filters */
+    .filters{
+      display:flex; flex-wrap:wrap; gap:10px;
+      align-items:center;
+      margin: 10px 0 14px;
+    }
+    .select, .toggle{
+      display:flex; align-items:center; gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-size: 13px;
+    }
+    select{
+      appearance:none;
+      background: transparent;
+      border:0;
+      outline:0;
+      color: var(--text);
+      font-size:13px;
+      cursor:pointer;
+    }
+    .toggle input{accent-color: var(--brand); cursor:pointer}
+
+    /* Product grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 3;
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      min-height: 360px;
+      transition: .15s ease;
+    }
+    .card:hover{transform: translateY(-2px)}
+    .thumb{
+      height: 170px;
+      background:
+        radial-gradient(180px 120px at 30% 30%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(180px 120px at 70% 40%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border-bottom:1px solid rgba(255,255,255,.08);
+      position:relative;
+    }
+    .thumb .tag{
+      position:absolute; top:12px; left:12px;
+      padding:7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight:800;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .thumb .tag.sale{background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.35); color:#fecaca}
+    .thumb .tag.new{background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.35); color:#bbf7d0}
+    .thumb .tag.best{background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.35); color:#bfdbfe}
+    .thumb .wish{
+      position:absolute; top:12px; right:12px;
+      width:38px; height:38px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .thumb .wish:hover{transform: scale(1.03)}
+    .thumb .wish.active{background: rgba(124,58,237,.22); border-color: rgba(124,58,237,.35)}
+    .content{padding: 14px 14px 12px; display:flex; flex-direction:column; gap:10px; flex:1}
+    .title{font-weight:800; font-size: 14.5px; margin:0}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:12.5px}
+    .stars{display:inline-flex; align-items:center; gap:6px}
+    .star{
+      width:14px; height:14px; display:inline-block;
+      background: conic-gradient(from 0deg, #fbbf24 0 100%);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.3));
+    }
+    .price-row{display:flex; align-items:flex-end; justify-content:space-between; gap:12px}
+    .price{display:flex; flex-direction:column; gap:3px}
+    .price .now{font-size: 18px; font-weight:900; letter-spacing:.2px}
+    .price .was{font-size: 12px; color: var(--muted); text-decoration: line-through}
+    .actions-row{display:flex; gap:10px; margin-top:auto}
+    .qty{
+      display:flex; align-items:center; gap:8px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .qty button{
+      width:26px; height:26px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .qty span{min-width: 16px; text-align:center; font-weight:800; font-size: 13px}
+    .buy{
+      flex:1;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(37,99,235,.92));
+      box-shadow: 0 12px 26px rgba(124,58,237,.20);
+      cursor:pointer;
+      font-weight:900;
+    }
+    .buy:hover{filter: brightness(1.04)}
+    .subtle{color:var(--muted)}
+
+    /* Cart drawer */
+    .backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      z-index:80;
+    }
+    .drawer{
+      position:fixed; top:0; right:0; height:100%; width:min(420px, 92vw);
+      background: rgba(15,23,42,.92);
+      backdrop-filter: blur(14px);
+      border-left:1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      transform: translateX(105%);
+      transition: transform .2s ease;
+      z-index:90;
+      display:flex; flex-direction:column;
+    }
+    .drawer.open{transform: translateX(0)}
+    .backdrop.show{display:block}
+    .drawer-head{
+      padding: 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .drawer-head h3{margin:0; font-size: 16px}
+    .drawer-body{padding: 14px 16px; overflow:auto; flex:1}
+    .cart-item{
+      display:flex; gap:12px; align-items:flex-start;
+      padding: 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin-bottom: 10px;
+    }
+    .cart-thumb{
+      width:56px; height:56px; border-radius: 16px;
+      background:
+        radial-gradient(40px 40px at 30% 30%, rgba(124,58,237,.25), transparent 60%),
+        radial-gradient(50px 50px at 70% 40%, rgba(34,197,94,.18), transparent 60%),
+        rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      flex:0 0 auto;
+    }
+    .cart-info{flex:1; min-width:0}
+    .cart-info .n{font-weight:900; font-size: 14px; margin:0 0 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .cart-info .m{color:var(--muted); font-size: 12.5px; margin:0 0 10px}
+    .cart-ops{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .cart-ops .mini-qty{display:flex; gap:8px; align-items:center}
+    .cart-ops button{
+      width:28px; height:28px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      cursor:pointer;
+    }
+    .cart-ops .amt{font-weight:900}
+    .remove{
+      background: rgba(239,68,68,.14) !important;
+      border-color: rgba(239,68,68,.35) !important;
+      color:#fecaca !important;
+    }
+    .drawer-foot{
+      padding: 14px 16px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:grid; gap:10px;
+    }
+    .totals{
+      display:flex; align-items:center; justify-content:space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .totals b{color:var(--text); font-size: 16px}
+    .checkout{display:flex; gap:10px}
+    .checkout .btn{flex:1; justify-content:center}
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--line);
+      padding: 22px 0 30px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .foot{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 18px;
+    }
+    .foot h4{margin:0 0 10px; color:var(--text)}
+    .foot a{color:var(--muted)}
+    .foot a:hover{color:var(--text)}
+    .small{font-size: 12.5px; color:var(--muted)}
+    .line{height:1px; background: var(--line); margin: 14px 0}
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(17,24,39,.92);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      padding: 10px 14px;
+      display:none;
+      align-items:center;
+      gap: 10px;
+      box-shadow: var(--shadow);
+      z-index: 120;
+      color: var(--text);
+      font-size: 13.5px;
+    }
+    .toast.show{display:flex}
+    .toast .ok{
+      width:10px; height:10px; border-radius: 99px;
+      background: var(--brand2);
+      box-shadow: 0 0 0 5px rgba(34,197,94,.12);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .hero-side{grid-template-columns: 1fr 1fr; grid-template-rows: auto;}
+      .card{grid-column: span 6;}
+      .logo{min-width:auto}
+      ..nav{
+  display:flex; align-items:center; gap:10px;
+  color:var(--muted);
+  flex: 0 0 auto;               /* ✅ 내비가 검색창을 과도하게 압박하지 않게 */
+  white-space: nowrap;
+}
+
+      .account{display:none !important;} /* 모바일 상단 혼잡 방지(원하면 제거) */
+    }
+    @media (max-width: 620px){
+      .hero-side{grid-template-columns: 1fr;}
+      .card{grid-column: span 12;}
+      .search .kbd{display:none}
+    }
+  </style>
 </head>
 <body>
-    <div id="theme-toggle-container">
-        <button id="theme-toggle">Switch to Light Mode</button>
+  <header class="topbar" role="banner">
+    <div class="container">
+      <div class="topbar-inner">
+        <a class="logo" href="#" aria-label="홈으로">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span>VibeShop</span>
+        </a>
+
+        <nav class="nav" aria-label="주요 메뉴">
+          <a href="#products">신상품</a>
+          <a href="#products">베스트</a>
+          <a href="#products">세일</a>
+          <a href="#brands">브랜드</a>
+          <a href="#support">고객센터</a>
+        </nav>
+
+        <div class="search" role="search" aria-label="상품 검색">
+          <span aria-hidden="true">🔎</span>
+          <input id="q" type="search" placeholder="찾고 싶은 상품을 검색하세요" autocomplete="off" />
+          <span class="kbd" title="단축키">Ctrl /</span>
+        </div>
+
+        <div class="actions" aria-label="유틸 메뉴">
+          <button class="iconbtn" id="btnTheme" type="button" title="라이트/다크 모드">
+            <span aria-hidden="true">🌙</span>
+          </button>
+
+          <button class="iconbtn" id="btnCart" type="button" title="장바구니">
+            <span aria-hidden="true">🛒</span>
+            <span class="badge" id="cartCount">0</span>
+          </button>
+
+          <div class="account" id="accountArea" aria-live="polite"></div>
+
+          <button class="btn primary" type="button" id="btnLogin">
+            <span aria-hidden="true">👤</span>
+            로그인
+          </button>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <header>
-        <h1>My Awesome Shop</h1>
-    </header>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-main">
+            <h1>오늘의 추천: <span style="color:#d8b4fe">프리미엄</span> 감성 쇼핑</h1>
+            <p>
+              빠르게 탐색하고, 원하는 상품만 골라 담는 “홈페이지 예시” 템플릿입니다.
+              필터/정렬/검색/장바구니 UI가 포함되어 있어 바로 커스터마이징하기 좋습니다.
+            </p>
 
-    <main id="product-list">
-        <!-- Products will be dynamically inserted here -->
-    </main>
+            <div class="chips" aria-label="혜택">
+              <span class="chip"><span class="dot"></span> 무료배송 3만원↑</span>
+              <span class="chip">신규회원 10% 쿠폰</span>
+              <span class="chip">당일발송 상품 모음</span>
+            </div>
 
-    <footer>
-        <p>&copy; 2026 My Awesome Shop. All rights reserved.</p>
-    </footer>
+            <div class="hero-cta">
+              <a class="btn primary" href="#products">지금 쇼핑하기</a>
+              <button class="btn ghost" type="button" id="btnRandomPick">랜덤 추천</button>
+              <button class="btn ghost" type="button" id="btnClear">검색/필터 초기화</button>
+            </div>
 
-    <script src="main.js"></script>
+            <div class="hero-art" aria-hidden="true"></div>
+          </div>
+
+          <div class="hero-side">
+            <div class="mini-card">
+              <div class="mini-title">
+                <h3>이번 주 딜</h3>
+                <span>~ 일요일 23:59</span>
+              </div>
+              <div class="deals">
+                <div class="deal">
+                  <div class="left">
+                    <div class="name">데일리 후디</div>
+                    <div class="desc">인기 컬러 재입고</div>
+                  </div>
+                  <span class="pill hot">최대 35%</span>
+                </div>
+                <div class="deal">
+                  <div class="left">
+                    <div class="name">무선 이어버드</div>
+                    <div class="desc">노이즈 캔슬링</div>
+                  </div>
+                  <span class="pill">오늘만</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mini-card">
+              <div class="mini-title">
+                <h3>빠른 카테고리</h3>
+                <span>한 번에 이동</span>
+              </div>
+              <div class="filters" style="margin:0">
+                <button class="btn small ghost cat" data-cat="패션">패션</button>
+                <button class="btn small ghost cat" data-cat="테크">테크</button>
+                <button class="btn small ghost cat" data-cat="리빙">리빙</button>
+                <button class="btn small ghost cat" data-cat="뷰티">뷰티</button>
+                <button class="btn small ghost cat" data-cat="푸드">푸드</button>
+              </div>
+              <div class="line"></div>
+              <div class="small">
+                Tip: 상단 검색창에서 <b>Ctrl + /</b>로 포커스, <b>Enter</b>로 검색 적용.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>추천 상품</h2>
+            <p>검색/필터/정렬이 즉시 반영되는 데모 상품 목록</p>
+          </div>
+          <div class="small">표시: <span id="countShown">0</span> / <span id="countAll">0</span></div>
+        </div>
+
+        <div class="filters" aria-label="필터">
+          <label class="select" title="카테고리">
+            <span class="subtle">카테고리</span>
+            <select id="filterCat">
+              <option value="ALL">전체</option>
+              <option value="패션">패션</option>
+              <option value="테크">테크</option>
+              <option value="리빙">리빙</option>
+              <option value="뷰티">뷰티</option>
+              <option value="푸드">푸드</option>
+            </select>
+          </label>
+
+          <label class="select" title="정렬">
+            <span class="subtle">정렬</span>
+            <select id="sortBy">
+              <option value="RECO">추천순</option>
+              <option value="PRICE_ASC">가격 낮은순</option>
+              <option value="PRICE_DESC">가격 높은순</option>
+              <option value="RATING_DESC">평점 높은순</option>
+              <option value="NEW_DESC">신상품순</option>
+            </select>
+          </label>
+
+          <label class="toggle" title="세일만 보기">
+            <input id="onlySale" type="checkbox" />
+            <span>세일만</span>
+          </label>
+
+          <label class="toggle" title="무료배송만 보기">
+            <input id="onlyShipFree" type="checkbox" />
+            <span>무료배송</span>
+          </label>
+
+          <label class="toggle" title="재고 있음만 보기">
+            <input id="onlyInStock" type="checkbox" checked />
+            <span>재고 있음</span>
+          </label>
+        </div>
+
+        <div class="grid" id="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- BRANDS / SUPPORT -->
+    <section class="section" id="brands">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>브랜드 라운지</h2>
+            <p>로고/배너/프로모션 영역(커스터마이징용)</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="mini-card" style="grid-column: span 4;">
+            <h3 style="margin:0 0 10px;">Brand A</h3>
+            <div class="small">미니 배너 영역 / 브랜드 스토리</div>
+            <div class="line"></div>
+            <button class="btn small primary" type="button">브랜드 보러가기</button>
+          </div>
+          <div class="mini-card" style="grid-column: span 4;">
+            <h3 style="margin:0 0 10px;">Brand B</h3>
+            <div class="small">시즌 컬렉션 / 추천</div>
+            <div class="line"></div>
+            <button class="btn small ghost" type="button">컬렉션</button>
+          </div>
+          <div class="mini-card" style="grid-column: span 4;">
+            <h3 style="margin:0 0 10px;">Brand C</h3>
+            <div class="small">기획전 / 쿠폰</div>
+            <div class="line"></div>
+            <button class="btn small ghost" type="button">쿠폰 받기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="support">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>고객센터</h2>
+            <p>FAQ/공지/문의 버튼 영역</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="mini-card" style="grid-column: span 6;">
+            <h3 style="margin:0 0 10px;">자주 묻는 질문</h3>
+            <div class="small">배송 / 교환 / 환불 / 결제 / 쿠폰</div>
+            <div class="line"></div>
+            <div class="small">
+              • 평균 배송 1~2일<br/>
+              • 교환/반품 7일 이내 가능<br/>
+              • 문의: help@vibeshop.example
+            </div>
+          </div>
+          <div class="mini-card" style="grid-column: span 6;">
+            <h3 style="margin:0 0 10px;">공지사항</h3>
+            <div class="small">서비스 점검 / 이벤트 안내</div>
+            <div class="line"></div>
+            <div class="small">
+              • [안내] 신규회원 쿠폰 지급 정책<br/>
+              • [이벤트] 주간 특가 상품 오픈<br/>
+              • [점검] 결제 시스템 업데이트
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="foot">
+        <div>
+          <div class="logo" style="margin-bottom:10px">
+            <span class="logo-mark" aria-hidden="true"></span>
+            <span>VibeShop</span>
+          </div>
+          <div class="small">
+            본 페이지는 “쇼핑몰 메인 홈페이지 UI” 예시 템플릿입니다. <br/>
+            로고/상품/문구/컬러를 바꾸면 바로 실서비스 느낌으로 확장 가능합니다.
+          </div>
+        </div>
+        <div>
+          <h4>바로가기</h4>
+          <div class="small" style="display:grid; gap:8px">
+            <a href="#products">상품</a>
+            <a href="#brands">브랜드</a>
+            <a href="#support">고객센터</a>
+          </div>
+        </div>
+        <div>
+          <h4>정책</h4>
+          <div class="small" style="display:grid; gap:8px">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">환불정책</a>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+      <div class="small">© <span id="year"></span> VibeShop. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" aria-label="장바구니">
+    <div class="drawer-head">
+      <h3>장바구니</h3>
+      <button class="btn small ghost" type="button" id="btnCloseCart">닫기</button>
+    </div>
+    <div class="drawer-body" id="cartList"></div>
+    <div class="drawer-foot">
+      <div class="totals">
+        <span>합계</span>
+        <b id="cartTotal">₩0</b>
+      </div>
+      <div class="checkout">
+        <button class="btn ghost" type="button" id="btnEmpty">비우기</button>
+        <button class="btn primary" type="button" id="btnCheckout">결제하기</button>
+      </div>
+      <div class="small">데모 페이지: 결제는 실제로 진행되지 않습니다.</div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="ok" aria-hidden="true"></span>
+    <span id="toastMsg">장바구니에 담았습니다.</span>
+  </div>
+
+  <script>
+    // ===== Demo data =====
+    const PRODUCTS = [
+      {id:"p1",  name:"에어리 티셔츠",  cat:"패션", tag:"new",  price:19900, was:null, rating:4.7, reviews:1321, shipFree:true,  stock:38,  created:"2026-01-20"},
+      {id:"p2",  name:"데일리 후디",    cat:"패션", tag:"sale", price:39000, was:59000, rating:4.8, reviews:845,  shipFree:true,  stock:12,  created:"2025-12-18"},
+      {id:"p3",  name:"미니 크로스백",  cat:"패션", tag:"best", price:44900, was:null, rating:4.6, reviews:532,  shipFree:false, stock:19,  created:"2025-11-28"},
+      {id:"p4",  name:"무선 이어버드 Pro", cat:"테크", tag:"sale", price:79000, was:129000, rating:4.5, reviews:2210, shipFree:true, stock:25, created:"2026-01-06"},
+      {id:"p5",  name:"휴대용 블렌더",  cat:"리빙", tag:"best", price:52000, was:null, rating:4.4, reviews:612,  shipFree:true, stock:0,  created:"2025-10-03"},
+      {id:"p6",  name:"아로마 디퓨저",  cat:"리빙", tag:"new",  price:29800, was:null, rating:4.3, reviews:194,  shipFree:false, stock:44, created:"2026-01-25"},
+      {id:"p7",  name:"비타민 세럼",    cat:"뷰티", tag:"sale", price:25900, was:35000, rating:4.6, reviews:980,  shipFree:true, stock:33, created:"2025-12-05"},
+      {id:"p8",  name:"선크림 SPF50+",  cat:"뷰티", tag:"best", price:17500, was:null, rating:4.7, reviews:1430, shipFree:false, stock:58, created:"2025-09-14"},
+      {id:"p9",  name:"드립백 커피 10입", cat:"푸드", tag:"new", price:14900, was:null, rating:4.8, reviews:377,  shipFree:true, stock:76, created:"2026-02-01"},
+      {id:"p10", name:"프로틴 바 12입",  cat:"푸드", tag:"sale", price:16800, was:21000, rating:4.2, reviews:410, shipFree:true, stock:22, created:"2025-11-07"},
+      {id:"p11", name:"USB-C 멀티허브",  cat:"테크", tag:"best", price:34900, was:null, rating:4.4, reviews:650,  shipFree:false, stock:17, created:"2025-08-19"},
+      {id:"p12", name:"무드 테이블 램프", cat:"리빙", tag:"sale", price:26900, was:42000, rating:4.5, reviews:521, shipFree:true, stock:9,  created:"2026-01-12"},
+    ];
+
+    // ===== Utils =====
+    const KRW = new Intl.NumberFormat("ko-KR", { style:"currency", currency:"KRW" });
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+    const daysBetween = (a,b) => Math.floor((new Date(a)-new Date(b))/(1000*60*60*24));
+
+    // ===== State =====
+    const state = {
+      q: "",
+      cat: "ALL",
+      sort: "RECO",
+      onlySale: false,
+      onlyShipFree: false,
+      onlyInStock: true,
+      qty: Object.fromEntries(PRODUCTS.map(p => [p.id, 1])),
+      wish: new Set(),
+      cart: new Map(), // id -> {id, qty}
+    };
+
+    // ===== Render products =====
+    function computeList(){
+      let list = [...PRODUCTS];
+
+      // search
+      if(state.q.trim()){
+        const k = state.q.trim().toLowerCase();
+        list = list.filter(p => p.name.toLowerCase().includes(k) || p.cat.toLowerCase().includes(k));
+      }
+
+      // filters
+      if(state.cat !== "ALL") list = list.filter(p => p.cat === state.cat);
+      if(state.onlySale) list = list.filter(p => p.tag === "sale" || p.was);
+      if(state.onlyShipFree) list = list.filter(p => p.shipFree);
+      if(state.onlyInStock) list = list.filter(p => p.stock > 0);
+
+      // sort
+      const by = state.sort;
+      if(by === "PRICE_ASC") list.sort((a,b)=> a.price - b.price);
+      if(by === "PRICE_DESC") list.sort((a,b)=> b.price - a.price);
+      if(by === "RATING_DESC") list.sort((a,b)=> b.rating - a.rating);
+      if(by === "NEW_DESC") list.sort((a,b)=> new Date(b.created) - new Date(a.created));
+
+      // RECO: 간단 추천 점수(평점+리뷰+신상품 가중치-품절 패널티)
+      if(by === "RECO"){
+        const now = new Date();
+        const score = (p)=>{
+          const rec = Math.log10(p.reviews + 10) * 0.9;
+          const newness = Math.max(0, 40 - Math.abs(daysBetween(now, new Date(p.created)))) / 40;
+          const stock = p.stock > 0 ? 0.2 : -2.0;
+          const sale = (p.tag==="sale" || p.was) ? 0.25 : 0;
+          return p.rating + rec + newness + stock + sale;
+        };
+        list.sort((a,b)=> score(b)-score(a));
+      }
+
+      return list;
+    }
+
+    function tagLabel(tag){
+      if(tag==="sale") return {t:"SALE", cls:"sale"};
+      if(tag==="new") return {t:"NEW", cls:"new"};
+      if(tag==="best") return {t:"BEST", cls:"best"};
+      return {t:"", cls:""};
+    }
+
+    function cardHTML(p){
+      const t = tagLabel(p.tag);
+      const wished = state.wish.has(p.id) ? "active" : "";
+      const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
+      const was = p.was ? `<div class="was">${KRW.format(p.was)}</div>` : `<div class="was" style="visibility:hidden">₩0</div>`;
+      const stars = `<span class="stars" title="평점 ${p.rating}"><span class="star"></span> ${p.rating.toFixed(1)} <span class="subtle">(${p.reviews.toLocaleString()})</span></span>`;
+
+      return `
+        <article class="card" data-id="${p.id}">
+          <div class="thumb">
+            <span class="tag ${t.cls}">${t.t}</span>
+            <button class="wish ${wished}" type="button" aria-label="찜" data-wish="${p.id}">♥</button>
+          </div>
+          <div class="content">
+            <h3 class="title">${p.name}</h3>
+            <div class="meta">
+              <span>${p.cat}</span>
+              <span>•</span>
+              ${stars}
+            </div>
+            <div class="price-row">
+              <div class="price">
+                <div class="now">${KRW.format(p.price)}</div>
+                ${was}
+              </div>
+              ${out}
+            </div>
+
+            <div class="actions-row">
+              <div class="qty" aria-label="수량">
+                <button type="button" data-qty-minus="${p.id}" aria-label="감소">−</button>
+                <span id="qty-${p.id}">${state.qty[p.id] || 1}</span>
+                <button type="button" data-qty-plus="${p.id}" aria-label="증가">+</button>
+              </div>
+              <button class="buy" type="button" data-add="${p.id}" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
+                담기
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function render(){
+      const list = computeList();
+      $("#countAll").textContent = PRODUCTS.length.toString();
+      $("#countShown").textContent = list.length.toString();
+
+      const grid = $("#grid");
+      grid.innerHTML = list.map(cardHTML).join("");
+
+      // bind events
+      $$("[data-qty-minus]").forEach(b => b.addEventListener("click", ()=>{
+        const id = b.getAttribute("data-qty-minus");
+        state.qty[id] = Math.max(1, (state.qty[id]||1) - 1);
+        const el = $("#qty-"+id);
+        if(el) el.textContent = state.qty[id];
+      }));
+      $$("[data-qty-plus]").forEach(b => b.addEventListener("click", ()=>{
+        const id = b.getAttribute("data-qty-plus");
+        state.qty[id] = Math.min(99, (state.qty[id]||1) + 1);
+        const el = $("#qty-"+id);
+        if(el) el.textContent = state.qty[id];
+      }));
+      $$("[data-add]").forEach(b => b.addEventListener("click", ()=>{
+        const id = b.getAttribute("data-add");
+        const p = PRODUCTS.find(x=>x.id===id);
+        if(!p || p.stock<=0) return;
+        addToCart(id, state.qty[id]||1);
+      }));
+      $$("[data-wish]").forEach(b => b.addEventListener("click", ()=>{
+        const id = b.getAttribute("data-wish");
+        if(state.wish.has(id)) state.wish.delete(id);
+        else state.wish.add(id);
+        b.classList.toggle("active");
+        toast(state.wish.has(id) ? "찜 목록에 추가했어요." : "찜을 해제했어요.");
+      }));
+    }
+
+    // ===== Cart =====
+    function addToCart(id, qty){
+      const cur = state.cart.get(id)?.qty || 0;
+      state.cart.set(id, {id, qty: cur + qty});
+      updateCartUI();
+      toast("장바구니에 담았습니다.");
+    }
+
+    function removeFromCart(id){
+      state.cart.delete(id);
+      updateCartUI();
+    }
+
+    function changeCartQty(id, delta){
+      const item = state.cart.get(id);
+      if(!item) return;
+      item.qty = Math.max(1, item.qty + delta);
+      state.cart.set(id, item);
+      updateCartUI();
+    }
+
+    function cartTotal(){
+      let sum = 0;
+      for(const [id, item] of state.cart){
+        const p = PRODUCTS.find(x=>x.id===id);
+        if(p) sum += p.price * item.qty;
+      }
+      return sum;
+    }
+
+    function updateCartUI(){
+      const count = Array.from(state.cart.values()).reduce((a,b)=>a+b.qty,0);
+      $("#cartCount").textContent = count.toString();
+
+      const list = $("#cartList");
+      if(count === 0){
+        list.innerHTML = `<div class="small" style="padding:12px; color: var(--muted)">장바구니가 비어 있습니다.</div>`;
+      } else {
+        list.innerHTML = Array.from(state.cart.values()).map(({id, qty})=>{
+          const p = PRODUCTS.find(x=>x.id===id);
+          if(!p) return "";
+          return `
+            <div class="cart-item">
+              <div class="cart-thumb" aria-hidden="true"></div>
+              <div class="cart-info">
+                <p class="n">${p.name}</p>
+                <p class="m">${p.cat} • ${p.shipFree ? "무료배송" : "배송비 별도"}</p>
+                <div class="cart-ops">
+                  <div class="mini-qty">
+                    <button type="button" data-cart-minus="${id}">−</button>
+                    <span class="amt">${qty}</span>
+                    <button type="button" data-cart-plus="${id}">+</button>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <b>${KRW.format(p.price * qty)}</b>
+                    <button type="button" class="remove" data-cart-remove="${id}">삭제</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        $$("[data-cart-minus]").forEach(b => b.addEventListener("click", ()=> changeCartQty(b.dataset.cartMinus, -1)));
+        $$("[data-cart-plus]").forEach(b => b.addEventListener("click", ()=> changeCartQty(b.dataset.cartPlus, +1)));
+        $$("[data-cart-remove]").forEach(b => b.addEventListener("click", ()=> removeFromCart(b.dataset.cartRemove)));
+      }
+
+      $("#cartTotal").textContent = KRW.format(cartTotal());
+    }
+
+    // ===== Drawer =====
+    function openCart(){
+      $("#backdrop").classList.add("show");
+      $("#drawer").classList.add("open");
+      document.body.style.overflow = "hidden";
+      updateCartUI();
+    }
+    function closeCart(){
+      $("#backdrop").classList.remove("show");
+      $("#drawer").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    // ===== Toast =====
+    let toastTimer = null;
+    function toast(msg){
+      const t = $("#toast");
+      $("#toastMsg").textContent = msg;
+      t.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> t.classList.remove("show"), 1600);
+    }
+
+    // ===== Events (non-login/theme) =====
+    $("#btnCart").addEventListener("click", openCart);
+    $("#btnCloseCart").addEventListener("click", closeCart);
+    $("#backdrop").addEventListener("click", closeCart);
+
+    $("#btnEmpty").addEventListener("click", ()=>{
+      state.cart.clear();
+      updateCartUI();
+      toast("장바구니를 비웠습니다.");
+    });
+
+    $("#btnCheckout").addEventListener("click", ()=>{
+      if(state.cart.size === 0) return toast("장바구니가 비어 있어요.");
+      toast("데모: 결제 화면으로 이동(가정)");
+    });
+
+    $("#q").addEventListener("input", (e)=>{
+      state.q = e.target.value;
+      render();
+    });
+
+    $("#filterCat").addEventListener("change", (e)=>{
+      state.cat = e.target.value;
+      render();
+    });
+
+    $("#sortBy").addEventListener("change", (e)=>{
+      state.sort = e.target.value;
+      render();
+    });
+
+    $("#onlySale").addEventListener("change", (e)=>{
+      state.onlySale = e.target.checked;
+      render();
+    });
+
+    $("#onlyShipFree").addEventListener("change", (e)=>{
+      state.onlyShipFree = e.target.checked;
+      render();
+    });
+
+    $("#onlyInStock").addEventListener("change", (e)=>{
+      state.onlyInStock = e.target.checked;
+      render();
+    });
+
+    $$(".cat").forEach(btn => btn.addEventListener("click", ()=>{
+      state.cat = btn.dataset.cat;
+      $("#filterCat").value = state.cat;
+      render();
+      document.querySelector("#products").scrollIntoView({behavior:"smooth", block:"start"});
+    }));
+
+    $("#btnClear").addEventListener("click", ()=>{
+      state.q = "";
+      $("#q").value = "";
+      state.cat = "ALL";
+      $("#filterCat").value = "ALL";
+      state.sort = "RECO";
+      $("#sortBy").value = "RECO";
+      state.onlySale = false; $("#onlySale").checked = false;
+      state.onlyShipFree = false; $("#onlyShipFree").checked = false;
+      state.onlyInStock = true; $("#onlyInStock").checked = true;
+      render();
+      toast("초기화 완료");
+    });
+
+    $("#btnRandomPick").addEventListener("click", ()=>{
+      const list = computeList();
+      if(list.length===0) return toast("조건에 맞는 상품이 없어요.");
+      const pick = list[Math.floor(Math.random()*list.length)];
+      toast(`추천: ${pick.name}`);
+      const card = document.querySelector(`.card[data-id="${pick.id}"]`);
+      if(card) card.scrollIntoView({behavior:"smooth", block:"center"});
+    });
+
+    // 단축키: Ctrl + /
+    window.addEventListener("keydown", (e)=>{
+      if(e.ctrlKey && e.key === "/"){
+        e.preventDefault();
+        $("#q").focus();
+      }
+      if(e.key === "Escape"){
+        closeCart();
+      }
+    });
+
+    // ===== Login (persist with localStorage) =====
+    const LS_LOGIN_KEY = "vibeshop_login_id";
+
+    function genLoginId(){
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      const digits = "0123456789";
+
+      let a = "";
+      for(let i=0;i<4;i++) a += letters[Math.floor(Math.random() * letters.length)];
+
+      let b = "";
+      for(let i=0;i<4;i++) b += digits[Math.floor(Math.random() * digits.length)];
+
+      return a + b;
+    }
+
+    let loggedInId = localStorage.getItem(LS_LOGIN_KEY); // 새로고침 유지
+
+    function setLoginUI(){
+      const btn = $("#btnLogin");
+      const acc = $("#accountArea");
+      if(!btn || !acc) return;
+
+      if(loggedInId){
+        btn.innerHTML = `<span aria-hidden="true">✅</span> 로그아웃`;
+        btn.classList.remove("primary");
+        btn.classList.add("ghost");
+        btn.setAttribute("aria-pressed", "true");
+
+        acc.style.display = "block";
+        acc.innerHTML = `환영합니다, <strong>${loggedInId}</strong>`;
+      } else {
+        btn.innerHTML = `<span aria-hidden="true">👤</span> 로그인`;
+        btn.classList.add("primary");
+        btn.classList.remove("ghost");
+        btn.setAttribute("aria-pressed", "false");
+
+        acc.style.display = "none";
+        acc.textContent = "";
+      }
+    }
+
+    $("#btnLogin").addEventListener("click", ()=>{
+      if(loggedInId){
+        const prev = loggedInId;
+        loggedInId = null;
+        localStorage.removeItem(LS_LOGIN_KEY);
+        setLoginUI();
+        toast(`로그아웃 완료: ${prev}`);
+      } else {
+        loggedInId = genLoginId();
+        localStorage.setItem(LS_LOGIN_KEY, loggedInId);
+        setLoginUI();
+        toast(`로그인 완료: ${loggedInId}`);
+      }
+    });
+
+    // ===== Theme (light/dark) persist =====
+    const LS_THEME_KEY = "vibeshop_theme"; // "dark" | "light"
+
+    function applyTheme(theme){
+      const root = document.documentElement;
+      const icon = $("#btnTheme")?.querySelector("span");
+      const t = (theme === "light") ? "light" : "dark";
+      root.setAttribute("data-theme", t);
+
+      if(icon){
+        icon.textContent = (t === "light") ? "☀️" : "🌙";
+      }
+      localStorage.setItem(LS_THEME_KEY, t);
+    }
+
+    function initTheme(){
+      const saved = localStorage.getItem(LS_THEME_KEY);
+      applyTheme(saved || "dark");
+    }
+
+    $("#btnTheme").addEventListener("click", ()=>{
+      const cur = document.documentElement.getAttribute("data-theme") || "dark";
+      applyTheme(cur === "dark" ? "light" : "dark");
+      toast(`테마: ${document.documentElement.getAttribute("data-theme") === "light" ? "라이트" : "다크"}`);
+    });
+
+    // ===== Init =====
+    $("#year").textContent = new Date().getFullYear();
+    initTheme();
+    setLoginUI();
+    render();
+    updateCartUI();
+  </script>
 </body>
 </html>
