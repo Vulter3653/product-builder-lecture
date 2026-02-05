@@ -1,103 +1,61 @@
-class LottoGenerator extends HTMLElement {
-    constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: 'open' });
+// Product data
+const products = [
+    {
+        name: 'Classic T-Shirt',
+        price: '$15',
+        image: 'https://via.placeholder.com/250x250.png?text=T-Shirt'
+    },
+    {
+        name: 'Denim Jeans',
+        price: '$40',
+        image: 'https://via.placeholder.com/250x250.png?text=Jeans'
+    },
+    {
+        name: 'Cool Sneakers',
+        price: '$60',
+        image: 'https://via.placeholder.com/250x250.png?text=Sneakers'
+    },
+    {
+        name: 'Stylish Watch',
+        price: '$120',
+        image: 'https://via.placeholder.com/250x250.png?text=Watch'
+    },
+    {
+        name: 'Leather Backpack',
+        price: '$80',
+        image: 'https://via.placeholder.com/250x250.png?text=Backpack'
+    },
+    {
+        name: 'Sunglasses',
+        price: '$25',
+        image: 'https://via.placeholder.com/250x250.png?text=Sunglasses'
+    }
+];
 
-        const wrapper = document.createElement('div');
-        wrapper.setAttribute('class', 'lotto-generator');
+// Function to render products
+function renderProducts() {
+    const productList = document.getElementById('product-list');
+    if (!productList) return;
 
-        const title = document.createElement('h1');
-        title.textContent = 'Lotto Number Generator';
+    products.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.className = 'product-item';
 
-        const numbersContainer = document.createElement('div');
-        numbersContainer.setAttribute('class', 'numbers');
-
-        const button = document.createElement('button');
-        button.textContent = 'Generate Numbers';
-        button.addEventListener('click', () => this.generateNumbers(numbersContainer));
-
-        const style = document.createElement('style');
-        style.textContent = `
-            .lotto-generator {
-                text-align: center;
-                border: 1px solid var(--lotto-border-color);
-                padding: 2rem;
-                border-radius: 10px;
-                background-color: var(--lotto-bg-color);
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-                transition: background-color 0.3s, border-color 0.3s;
-            }
-            h1 {
-                margin-bottom: 2rem;
-                color: var(--text-color);
-            }
-            .numbers {
-                display: flex;
-                justify-content: center;
-                gap: 1rem;
-                margin-bottom: 2rem;
-            }
-            .number {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                background-color: var(--number-bg-color);
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: var(--text-color);
-                transition: background-color 0.3s, color 0.3s;
-            }
-            button {
-                background-color: var(--button-bg-color);
-                color: var(--text-color);
-                border: none;
-                padding: 0.75rem 1.5rem;
-                border-radius: 5px;
-                font-size: 1rem;
-                cursor: pointer;
-                transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
-            }
-            button:hover {
-                background-color: var(--button-hover-bg-color);
-                box-shadow: 0 0 15px var(--button-shadow-color);
-            }
+        productItem.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h2>${product.name}</h2>
+            <p>${product.price}</p>
         `;
 
-        shadow.appendChild(style);
-        shadow.appendChild(wrapper);
-        wrapper.appendChild(title);
-        wrapper.appendChild(numbersContainer);
-        wrapper.appendChild(button);
-
-        this.generateNumbers(numbersContainer);
-    }
-
-    generateNumbers(container) {
-        container.innerHTML = '';
-        const numbers = new Set();
-        while (numbers.size < 6) {
-            numbers.add(Math.floor(Math.random() * 45) + 1);
-        }
-
-        const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
-
-        for (const number of sortedNumbers) {
-            const numberElement = document.createElement('div');
-            numberElement.setAttribute('class', 'number');
-            numberElement.textContent = number;
-            container.appendChild(numberElement);
-        }
-    }
+        productList.appendChild(productItem);
+    });
 }
-
-
-customElements.define('lotto-generator', LottoGenerator);
 
 // Theme switching logic
 document.addEventListener('DOMContentLoaded', () => {
+    // Render products
+    renderProducts();
+
     const themeToggleBtn = document.getElementById('theme-toggle');
     const body = document.body;
 
@@ -124,4 +82,3 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(newTheme);
     });
 });
-
