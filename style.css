@@ -1,0 +1,598 @@
+:root{
+      --bg:#0b0f19;
+      --card:#111827;
+      --card2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.08);
+      --brand:#7c3aed;
+      --brand2:#22c55e;
+      --danger:#ef4444;
+      --warning:#f59e0b;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius2:22px;
+      --max:1200px;
+    }
+
+    /* 라이트 모드 */
+    :root[data-theme="light"]{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --card2:#f1f5f9;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:rgba(2,6,23,.10);
+      --shadow: 0 12px 30px rgba(2,6,23,.10);
+    }
+    :root[data-theme="light"] body{
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(124,58,237,.12), transparent 60%),
+        radial-gradient(1000px 500px at 95% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 600px at 50% 110%, rgba(59,130,246,.08), transparent 55%),
+        var(--bg);
+    }
+    :root[data-theme="light"] .topbar{ background: rgba(246,247,251,.75); }
+    :root[data-theme="light"] .search{
+      background: rgba(2,6,23,.04);
+      border-color: rgba(2,6,23,.10);
+    }
+    :root[data-theme="light"] .iconbtn,
+    :root[data-theme="light"] .btn,
+    :root[data-theme="light"] .mini-card,
+    :root[data-theme="light"] .card,
+    :root[data-theme="light"] .select,
+    :root[data-theme="light"] .toggle,
+    :root[data-theme="light"] .qty{
+      background: rgba(2,6,23,.03);
+      border-color: rgba(2,6,23,.10);
+    }
+    :root[data-theme="light"] .drawer{ background: rgba(255,255,255,.92); }
+    :root[data-theme="light"] .backdrop{ background: rgba(2,6,23,.45); }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", Arial, "맑은 고딕", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(1000px 500px at 95% 10%, rgba(34,197,94,.16), transparent 60%),
+        radial-gradient(900px 600px at 50% 110%, rgba(59,130,246,.12), transparent 55%),
+        var(--bg);
+      line-height:1.35;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .container{max-width:var(--max); margin:0 auto; padding:0 18px}
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,25,.7);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 0;
+  flex-wrap: wrap;              /* ✅ 공간 부족 시 자연스럽게 줄바꿈 */
+}
+
+   .logo{
+  display:flex; align-items:center; gap:10px; font-weight:800;
+  user-select:none;
+  min-width: 120px;             /* (기존 148px → 120px로 완화) */
+  flex: 0 0 auto;
+}
+
+    .logo-mark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), #2563eb);
+      box-shadow: 0 10px 20px rgba(124,58,237,.25);
+      position:relative;
+    }
+    .logo-mark::after{
+      content:"";
+      position:absolute; inset:9px;
+      border-radius:10px;
+      background: rgba(255,255,255,.18);
+      transform: rotate(18deg);
+    }
+    .nav{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      flex-wrap:wrap;
+    }
+    .nav a{
+      padding:10px 10px;
+      border-radius:12px;
+      transition:.15s ease;
+      border:1px solid transparent;
+    }
+    .nav a:hover{
+      color:var(--text);
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    /* Search */
+    .search{
+  flex: 1 1 420px;              /* ✅ 검색창이 유연하게 늘/줄 */
+  min-width: 240px;             /* ✅ 너무 작아지지 않게 */
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px;
+  background: rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius: 999px;
+}
+
+   .search input{
+  min-width: 0;                 /* ✅ flex 안에서 input이 넘치며 UI 깨지는 걸 방지 */
+  flex:1;
+  border:0;
+  outline:0;
+  background: transparent;
+  color:var(--text);
+  font-size:14px;
+}
+
+    .search .kbd{
+      font-size:12px;
+      color:var(--muted);
+      padding:5px 8px;
+      border:1px solid rgba(255,255,255,.10);
+      border-bottom-color: rgba(255,255,255,.18);
+      border-radius:10px;
+      background: rgba(255,255,255,.03);
+    }
+
+    /* Actions */
+    .actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex: 0 0 auto;               /* ✅ 우측 버튼 영역이 필요 이상으로 줄지 않게 */
+}
+
+    .iconbtn{
+      position:relative;
+      display:inline-flex; align-items:center; justify-content:center;
+      width:42px; height:42px;
+      border-radius:14px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      transition:.15s ease;
+      cursor:pointer;
+      color:var(--text);
+    }
+    .iconbtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+    .badge{
+      position:absolute;
+      top:-6px; right:-6px;
+      min-width: 20px; height:20px;
+      padding:0 6px;
+      border-radius:999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: var(--brand);
+      border: 1px solid rgba(255,255,255,.25);
+      font-size:12px;
+      font-weight:700;
+      box-shadow: 0 10px 20px rgba(124,58,237,.25);
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 14px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+      transition:.15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--brand), #2563eb);
+      border-color: transparent;
+      box-shadow: 0 12px 26px rgba(124,58,237,.22);
+    }
+    .btn.primary:hover{filter: brightness(1.04)}
+    .btn.ghost{
+      background: transparent;
+      border-color: rgba(255,255,255,.12);
+    }
+    .btn.small{padding:10px 12px; font-size:13px; border-radius:14px}
+
+    /* Account area */
+   .account{
+  max-width: 170px;             /* ✅ 240px → 170px로 줄여서 압박 완화 */
+  padding: 10px 12px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: none;                /* 로그인 시 JS에서 block으로 바뀜 */
+  align-items: center;          /* ✅ inline-flex 느낌 */
+}
+
+    .account strong{color: var(--text)}
+
+    /* Hero */
+    .hero{ padding: 22px 0 10px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+    }
+    .hero-main{
+      border-radius: var(--radius2);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(900px 400px at 20% 20%, rgba(124,58,237,.22), transparent 55%),
+        radial-gradient(800px 400px at 90% 10%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position:relative;
+      min-height: 260px;
+    }
+    .hero-main h1{
+      margin: 0 0 10px;
+      font-size: clamp(22px, 3.2vw, 36px);
+      line-height: 1.12;
+      letter-spacing: -.2px;
+    }
+    .hero-main p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      max-width: 56ch;
+      font-size: 14.5px;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin: 12px 0 18px}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .dot{width:8px; height:8px; border-radius:99px; background: var(--brand2); box-shadow: 0 0 0 4px rgba(34,197,94,.10)}
+    .hero-cta{display:flex; gap:10px; flex-wrap:wrap}
+    .hero-art{
+      position:absolute;
+      right: -40px; bottom: -30px;
+      width: 280px; height: 220px;
+      border-radius: 32px;
+      background:
+        radial-gradient(70px 70px at 30% 30%, rgba(255,255,255,.22), transparent 60%),
+        radial-gradient(120px 120px at 60% 60%, rgba(255,255,255,.14), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      transform: rotate(-10deg);
+      opacity:.95;
+    }
+
+    .hero-side{
+      display:grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+    }
+    .mini-card{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .mini-title{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
+    .mini-title h3{margin:0; font-size: 15px}
+    .mini-title span{color:var(--muted); font-size: 12.5px}
+    .deals{display:grid; gap:10px}
+    .deal{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding: 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .deal .left{display:flex; flex-direction:column; gap:4px}
+    .deal .name{font-weight:700; font-size: 13.5px}
+    .deal .desc{color:var(--muted); font-size: 12.5px}
+    .pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight:800;
+      font-size: 12px;
+      background: rgba(124,58,237,.14);
+      border: 1px solid rgba(124,58,237,.35);
+      color: #d8b4fe;
+      white-space:nowrap;
+    }
+    .pill.hot{
+      background: rgba(245,158,11,.14);
+      border-color: rgba(245,158,11,.35);
+      color: #fde68a;
+    }
+
+    /* Section header */
+    .section{ padding: 14px 0 26px; }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      margin: 8px 0 14px;
+    }
+    .section-head h2{margin:0; font-size: 18px}
+    .section-head p{margin:0; color:var(--muted); font-size: 13px}
+
+    /* Filters */
+    .filters{
+      display:flex; flex-wrap:wrap; gap:10px;
+      align-items:center;
+      margin: 10px 0 14px;
+    }
+    .select, .toggle{
+      display:flex; align-items:center; gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-size: 13px;
+    }
+    select{
+      appearance:none;
+      background: transparent;
+      border:0;
+      outline:0;
+      color: var(--text);
+      font-size:13px;
+      cursor:pointer;
+    }
+    .toggle input{accent-color: var(--brand); cursor:pointer}
+
+    /* Product grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 3;
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      min-height: 360px;
+      transition: .15s ease;
+    }
+    .card:hover{transform: translateY(-2px)}
+    .thumb{
+      height: 170px;
+      background:
+        radial-gradient(180px 120px at 30% 30%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(180px 120px at 70% 40%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border-bottom:1px solid rgba(255,255,255,.08);
+      position:relative;
+    }
+    .thumb .tag{
+      position:absolute; top:12px; left:12px;
+      padding:7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight:800;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .thumb .tag.sale{background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.35); color:#fecaca}
+    .thumb .tag.new{background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.35); color:#bbf7d0}
+    .thumb .tag.best{background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.35); color:#bfdbfe}
+    .thumb .wish{
+      position:absolute; top:12px; right:12px;
+      width:38px; height:38px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .thumb .wish:hover{transform: scale(1.03)}
+    .thumb .wish.active{background: rgba(124,58,237,.22); border-color: rgba(124,58,237,.35)}
+    .content{padding: 14px 14px 12px; display:flex; flex-direction:column; gap:10px; flex:1}
+    .title{font-weight:800; font-size: 14.5px; margin:0}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:12.5px}
+    .stars{display:inline-flex; align-items:center; gap:6px}
+    .star{
+      width:14px; height:14px; display:inline-block;
+      background: conic-gradient(from 0deg, #fbbf24 0 100%);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.3));
+    }
+    .price-row{display:flex; align-items:flex-end; justify-content:space-between; gap:12px}
+    .price{display:flex; flex-direction:column; gap:3px}
+    .price .now{font-size: 18px; font-weight:900; letter-spacing:.2px}
+    .price .was{font-size: 12px; color: var(--muted); text-decoration: line-through}
+    .actions-row{display:flex; gap:10px; margin-top:auto}
+    .qty{
+      display:flex; align-items:center; gap:8px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .qty button{
+      width:26px; height:26px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .qty span{min-width: 16px; text-align:center; font-weight:800; font-size: 13px}
+    .buy{
+      flex:1;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(37,99,235,.92));
+      box-shadow: 0 12px 26px rgba(124,58,237,.20);
+      cursor:pointer;
+      font-weight:900;
+    }
+    .buy:hover{filter: brightness(1.04)}
+    .subtle{color:var(--muted)}
+
+    /* Cart drawer */
+    .backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      z-index:80;
+    }
+    .drawer{
+      position:fixed; top:0; right:0; height:100%; width:min(420px, 92vw);
+      background: rgba(15,23,42,.92);
+      backdrop-filter: blur(14px);
+      border-left:1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      transform: translateX(105%);
+      transition: transform .2s ease;
+      z-index:90;
+      display:flex; flex-direction:column;
+    }
+    .drawer.open{transform: translateX(0)}
+    .backdrop.show{display:block}
+    .drawer-head{
+      padding: 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .drawer-head h3{margin:0; font-size: 16px}
+    .drawer-body{padding: 14px 16px; overflow:auto; flex:1}
+    .cart-item{
+      display:flex; gap:12px; align-items:flex-start;
+      padding: 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin-bottom: 10px;
+    }
+    .cart-thumb{
+      width:56px; height:56px; border-radius: 16px;
+      background:
+        radial-gradient(40px 40px at 30% 30%, rgba(124,58,237,.25), transparent 60%),
+        radial-gradient(50px 50px at 70% 40%, rgba(34,197,94,.18), transparent 60%),
+        rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      flex:0 0 auto;
+    }
+    .cart-info{flex:1; min-width:0}
+    .cart-info .n{font-weight:900; font-size: 14px; margin:0 0 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .cart-info .m{color:var(--muted); font-size: 12.5px; margin:0 0 10px}
+    .cart-ops{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .cart-ops .mini-qty{display:flex; gap:8px; align-items:center}
+    .cart-ops button{
+      width:28px; height:28px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      cursor:pointer;
+    }
+    .cart-ops .amt{font-weight:900}
+    .remove{
+      background: rgba(239,68,68,.14) !important;
+      border-color: rgba(239,68,68,.35) !important;
+      color:#fecaca !important;
+    }
+    .drawer-foot{
+      padding: 14px 16px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:grid; gap:10px;
+    }
+    .totals{
+      display:flex; align-items:center; justify-content:space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .totals b{color:var(--text); font-size: 16px}
+    .checkout{display:flex; gap:10px}
+    .checkout .btn{flex:1; justify-content:center}
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--line);
+      padding: 22px 0 30px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .foot{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 18px;
+    }
+    .foot h4{margin:0 0 10px; color:var(--text)}
+    .foot a{color:var(--muted)}
+    .foot a:hover{color:var(--text)}
+    .small{font-size: 12.5px; color:var(--muted)}
+    .line{height:1px; background: var(--line); margin: 14px 0}
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(17,24,39,.92);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      padding: 10px 14px;
+      display:none;
+      align-items:center;
+      gap: 10px;
+      box-shadow: var(--shadow);
+      z-index: 120;
+      color: var(--text);
+      font-size: 13.5px;
+    }
+    .toast.show{display:flex}
+    .toast .ok{
+      width:10px; height:10px; border-radius: 99px;
+      background: var(--brand2);
+      box-shadow: 0 0 0 5px rgba(34,197,94,.12);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .hero-side{grid-template-columns: 1fr 1fr; grid-template-rows: auto;}
+      .card{grid-column: span 6;}
+      .logo{min-width:auto}
+      ..nav{
+  display:flex; align-items:center; gap:10px;
+  color:var(--muted);
+  flex: 0 0 auto;               /* ✅ 내비가 검색창을 과도하게 압박하지 않게 */
+  white-space: nowrap;
+}
+
+      .account{display:none !important;} /* 모바일 상단 혼잡 방지(원하면 제거) */
+    }
+    @media (max-width: 620px){
+      .hero-side{grid-template-columns: 1fr;}
+      .card{grid-column: span 12;}
+      .search .kbd{display:none}
+    }
+  </style>
