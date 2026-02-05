@@ -160,6 +160,9 @@
 
     // ===== Cart =====
     function addToCart(id, qty){
+      if(!loggedInId){
+        return toast("로그인이 필요합니다.");
+      }
       const cur = state.cart.get(id)?.qty || 0;
       state.cart.set(id, {id, qty: cur + qty});
       updateCartUI();
@@ -386,6 +389,8 @@
         const prev = loggedInId;
         loggedInId = null;
         localStorage.removeItem(LS_LOGIN_KEY);
+        state.cart.clear(); // Clear cart on logout
+        updateCartUI();    // Update cart UI after clearing
         setLoginUI();
         toast(`로그아웃 완료: ${prev}`);
       } else {
