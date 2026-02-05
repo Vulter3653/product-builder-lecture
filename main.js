@@ -20,14 +20,16 @@ class LottoGenerator extends HTMLElement {
         style.textContent = `
             .lotto-generator {
                 text-align: center;
-                border: 1px solid #333;
+                border: 1px solid var(--lotto-border-color);
                 padding: 2rem;
                 border-radius: 10px;
-                background-color: #1e1e1e;
+                background-color: var(--lotto-bg-color);
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                transition: background-color 0.3s, border-color 0.3s;
             }
             h1 {
                 margin-bottom: 2rem;
+                color: var(--text-color);
             }
             .numbers {
                 display: flex;
@@ -42,23 +44,25 @@ class LottoGenerator extends HTMLElement {
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
-                background-color: #333;
+                background-color: var(--number-bg-color);
                 font-size: 1.5rem;
                 font-weight: bold;
+                color: var(--text-color);
+                transition: background-color 0.3s, color 0.3s;
             }
             button {
-                background-color: #007bff;
-                color: white;
+                background-color: var(--button-bg-color);
+                color: var(--text-color);
                 border: none;
                 padding: 0.75rem 1.5rem;
                 border-radius: 5px;
                 font-size: 1rem;
                 cursor: pointer;
-                transition: background-color 0.3s, box-shadow 0.3s;
+                transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
             }
             button:hover {
-                background-color: #0056b3;
-                box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+                background-color: var(--button-hover-bg-color);
+                box-shadow: 0 0 15px var(--button-shadow-color);
             }
         `;
 
@@ -89,4 +93,35 @@ class LottoGenerator extends HTMLElement {
     }
 }
 
+
 customElements.define('lotto-generator', LottoGenerator);
+
+// Theme switching logic
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Function to apply theme
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            body.classList.add('light-mode');
+            themeToggleBtn.textContent = 'Switch to Dark Mode';
+        } else {
+            body.classList.remove('light-mode');
+            themeToggleBtn.textContent = 'Switch to Light Mode';
+        }
+        localStorage.setItem('theme', theme);
+    };
+
+    // Check for saved theme preference, default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
+    // Toggle theme on button click
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    });
+});
+
