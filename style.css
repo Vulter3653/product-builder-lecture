@@ -49,6 +49,10 @@
     }
     :root[data-theme="light"] .drawer{ background: rgba(255,255,255,.92); }
     :root[data-theme="light"] .backdrop{ background: rgba(2,6,23,.45); }
+    :root[data-theme="light"] .toast{
+      background: rgba(255,255,255,.95);
+      border-color: rgba(2,6,23,.10);
+    }
 
     *{box-sizing:border-box}
     html,body{height:100%}
