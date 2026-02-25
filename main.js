@@ -1,17 +1,17 @@
-// ===== Demo data =====
+    // ===== Demo data =====
     const PRODUCTS = [
-      {id:"p1",  name:"에어리 티셔츠",  cat:"패션", tag:"new",  price:19900, was:null, rating:4.7, reviews:1321, shipFree:true,  stock:38,  created:"2026-01-20"},
-      {id:"p2",  name:"데일리 후디",    cat:"패션", tag:"sale", price:39000, was:59000, rating:4.8, reviews:845,  shipFree:true,  stock:12,  created:"2025-12-18"},
-      {id:"p3",  name:"미니 크로스백",  cat:"패션", tag:"best", price:44900, was:null, rating:4.6, reviews:532,  shipFree:false, stock:19,  created:"2025-11-28"},
-      {id:"p4",  name:"무선 이어버드 Pro", cat:"테크", tag:"sale", price:79000, was:129000, rating:4.5, reviews:2210, shipFree:true, stock:25, created:"2026-01-06"},
-      {id:"p5",  name:"휴대용 블렌더",  cat:"리빙", tag:"best", price:52000, was:null, rating:4.4, reviews:612,  shipFree:true, stock:0,  created:"2025-10-03"},
-      {id:"p6",  name:"아로마 디퓨저",  cat:"리빙", tag:"new",  price:29800, was:null, rating:4.3, reviews:194,  shipFree:false, stock:44, created:"2026-01-25"},
-      {id:"p7",  name:"비타민 세럼",    cat:"뷰티", tag:"sale", price:25900, was:35000, rating:4.6, reviews:980,  shipFree:true, stock:33, created:"2025-12-05"},
-      {id:"p8",  name:"선크림 SPF50+",  cat:"뷰티", tag:"best", price:17500, was:null, rating:4.7, reviews:1430, shipFree:false, stock:58, created:"2025-09-14"},
-      {id:"p9",  name:"드립백 커피 10입", cat:"푸드", tag:"new", price:14900, was:null, rating:4.8, reviews:377,  shipFree:true, stock:76, created:"2026-02-01"},
-      {id:"p10", name:"프로틴 바 12입",  cat:"푸드", tag:"sale", price:16800, was:21000, rating:4.2, reviews:410, shipFree:true, stock:22, created:"2025-11-07"},
-      {id:"p11", name:"USB-C 멀티허브",  cat:"테크", tag:"best", price:34900, was:null, rating:4.4, reviews:650,  shipFree:false, stock:17, created:"2025-08-19"},
-      {id:"p12", name:"무드 테이블 램프", cat:"리빙", tag:"sale", price:26900, was:42000, rating:4.5, reviews:521, shipFree:true, stock:9,  created:"2026-01-12"},
+      {id:"p1",  name:"에어리 티셔츠",  cat:"패션", tag:"new",  price:19900, was:null, rating:4.7, reviews:1321, shipFree:true,  stock:38,  created:"2026-01-20", img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80"},
+      {id:"p2",  name:"데일리 후디",    cat:"패션", tag:"sale", price:39000, was:59000, rating:4.8, reviews:845,  shipFree:true,  stock:12,  created:"2025-12-18", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=500&q=80"},
+      {id:"p3",  name:"미니 크로스백",  cat:"패션", tag:"best", price:44900, was:null, rating:4.6, reviews:532,  shipFree:false, stock:19,  created:"2025-11-28", img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=500&q=80"},
+      {id:"p4",  name:"무선 이어버드 Pro", cat:"테크", tag:"sale", price:79000, was:129000, rating:4.5, reviews:2210, shipFree:true, stock:25, created:"2026-01-06", img:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=500&q=80"},
+      {id:"p5",  name:"휴대용 블렌더",  cat:"리빙", tag:"best", price:52000, was:null, rating:4.4, reviews:612,  shipFree:true, stock:0,  created:"2025-10-03", img:"https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=500&q=80"},
+      {id:"p6",  name:"아로마 디퓨저",  cat:"리빙", tag:"new",  price:29800, was:null, rating:4.3, reviews:194,  shipFree:false, stock:44, created:"2026-01-25", img:"https://images.unsplash.com/photo-1608528577221-9085ff33c84a?auto=format&fit=crop&w=500&q=80"},
+      {id:"p7",  name:"비타민 세럼",    cat:"뷰티", tag:"sale", price:25900, was:35000, rating:4.6, reviews:980,  shipFree:true, stock:33, created:"2025-12-05", img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=500&q=80"},
+      {id:"p8",  name:"선크림 SPF50+",  cat:"뷰티", tag:"best", price:17500, was:null, rating:4.7, reviews:1430, shipFree:false, stock:58, created:"2025-09-14", img:"https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=500&q=80"},
+      {id:"p9",  name:"드립백 커피 10입", cat:"푸드", tag:"new", price:14900, was:null, rating:4.8, reviews:377,  shipFree:true, stock:76, created:"2026-02-01", img:"https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=500&q=80"},
+      {id:"p10", name:"프로틴 바 12입",  cat:"푸드", tag:"sale", price:16800, was:21000, rating:4.2, reviews:410, shipFree:true, stock:22, created:"2025-11-07", img:"https://images.unsplash.com/photo-1610725664285-f04192207aa1?auto=format&fit=crop&w=500&q=80"},
+      {id:"p11", name:"USB-C 멀티허브",  cat:"테크", tag:"best", price:34900, was:null, rating:4.4, reviews:650,  shipFree:false, stock:17, created:"2025-08-19", img:"https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=500&q=80"},
+      {id:"p12", name:"무드 테이블 램프", cat:"리빙", tag:"sale", price:26900, was:42000, rating:4.5, reviews:521, shipFree:true, stock:9,  created:"2026-01-12", img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=500&q=80"},
     ];
 
     // ===== Utils =====
@@ -89,6 +89,7 @@
       return `
         <article class="card" data-id="${p.id}">
           <div class="thumb">
+            <img src="${p.img}" alt="${p.name}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
             <span class="tag ${t.cls}">${t.t}</span>
             <button class="wish ${wished}" type="button" aria-label="찜" data-wish="${p.id}">♥</button>
           </div>
@@ -121,7 +122,6 @@
         </article>
       `;
     }
-
     function render(){
       const list = computeList();
       $("#countAll").textContent = PRODUCTS.length.toString();
