@@ -1,513 +1,576 @@
-    // ===== Demo data =====
-    const PRODUCTS = [
-      {id:"p1",  name:"에어리 티셔츠",  cat:"패션", tag:"new",  price:19900, was:null, rating:4.7, reviews:1321, shipFree:true,  stock:38,  created:"2026-01-20", img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80"},
-      {id:"p2",  name:"데일리 후디",    cat:"패션", tag:"sale", price:39000, was:59000, rating:4.8, reviews:845,  shipFree:true,  stock:12,  created:"2025-12-18", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=500&q=80"},
-      {id:"p3",  name:"미니 크로스백",  cat:"패션", tag:"best", price:44900, was:null, rating:4.6, reviews:532,  shipFree:false, stock:19,  created:"2025-11-28", img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=500&q=80"},
-      {id:"p4",  name:"무선 이어버드 Pro", cat:"테크", tag:"sale", price:79000, was:129000, rating:4.5, reviews:2210, shipFree:true, stock:25, created:"2026-01-06", img:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=500&q=80"},
-      {id:"p5",  name:"휴대용 블렌더",  cat:"리빙", tag:"best", price:52000, was:null, rating:4.4, reviews:612,  shipFree:true, stock:0,  created:"2025-10-03", img:"https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=500&q=80"},
-      {id:"p6",  name:"아로마 디퓨저",  cat:"리빙", tag:"new",  price:29800, was:null, rating:4.3, reviews:194,  shipFree:false, stock:44, created:"2026-01-25", img:"https://images.unsplash.com/photo-1608528577221-9085ff33c84a?auto=format&fit=crop&w=500&q=80"},
-      {id:"p7",  name:"비타민 세럼",    cat:"뷰티", tag:"sale", price:25900, was:35000, rating:4.6, reviews:980,  shipFree:true, stock:33, created:"2025-12-05", img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=500&q=80"},
-      {id:"p8",  name:"선크림 SPF50+",  cat:"뷰티", tag:"best", price:17500, was:null, rating:4.7, reviews:1430, shipFree:false, stock:58, created:"2025-09-14", img:"https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=500&q=80"},
-      {id:"p9",  name:"드립백 커피 10입", cat:"푸드", tag:"new", price:14900, was:null, rating:4.8, reviews:377,  shipFree:true, stock:76, created:"2026-02-01", img:"https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=500&q=80"},
-      {id:"p10", name:"프로틴 바 12입",  cat:"푸드", tag:"sale", price:16800, was:21000, rating:4.2, reviews:410, shipFree:true, stock:22, created:"2025-11-07", img:"https://images.unsplash.com/photo-1610725664285-f04192207aa1?auto=format&fit=crop&w=500&q=80"},
-      {id:"p11", name:"USB-C 멀티허브",  cat:"테크", tag:"best", price:34900, was:null, rating:4.4, reviews:650,  shipFree:false, stock:17, created:"2025-08-19", img:"https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=500&q=80"},
-      {id:"p12", name:"무드 테이블 램프", cat:"리빙", tag:"sale", price:26900, was:42000, rating:4.5, reviews:521, shipFree:true, stock:9,  created:"2026-01-12", img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=500&q=80"},
-    ];
+// ===== Demo data =====
+const PRODUCTS = [
+  {id:"p1",  name:"에어리 티셔츠",  cat:"패션", tag:"new",  price:19900, was:null, rating:4.7, reviews:1321, shipFree:true,  stock:38,  created:"2026-01-20", img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80", reviewsList: [{user:"김철수", star:5, text:"정말 가볍고 시원해요! 여름에 입기 딱입니다.", date:"2026-02-10"}]},
+  {id:"p2",  name:"데일리 후디",    cat:"패션", tag:"sale", price:39000, was:59000, rating:4.8, reviews:845,  shipFree:true,  stock:12,  created:"2025-12-18", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=500&q=80", reviewsList: [{user:"이영희", star:4, text:"핏이 예뻐요. 생각보다 조금 두껍네요.", date:"2026-01-15"}]},
+  {id:"p3",  name:"미니 크로스백",  cat:"패션", tag:"best", price:44900, was:null, rating:4.6, reviews:532,  shipFree:false, stock:19,  created:"2025-11-28", img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p4",  name:"무선 이어버드 Pro", cat:"테크", tag:"sale", price:79000, was:129000, rating:4.5, reviews:2210, shipFree:true, stock:25, created:"2026-01-06", img:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p5",  name:"휴대용 블렌더",  cat:"리빙", tag:"best", price:52000, was:null, rating:4.4, reviews:612,  shipFree:true, stock:0,  created:"2025-10-03", img:"https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p6",  name:"아로마 디퓨저",  cat:"리빙", tag:"new",  price:29800, was:null, rating:4.3, reviews:194,  shipFree:false, stock:44, created:"2026-01-25", img:"https://images.unsplash.com/photo-1608528577221-9085ff33c84a?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p7",  name:"비타민 세럼",    cat:"뷰티", tag:"sale", price:25900, was:35000, rating:4.6, reviews:980,  shipFree:true, stock:33, created:"2025-12-05", img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p8",  name:"선크림 SPF50+",  cat:"뷰티", tag:"best", price:17500, was:null, rating:4.7, reviews:1430, shipFree:false, stock:58, created:"2025-09-14", img:"https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p9",  name:"드립백 커피 10입", cat:"푸드", tag:"new", price:14900, was:null, rating:4.8, reviews:377,  shipFree:true, stock:76, created:"2026-02-01", img:"https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p10", name:"프로틴 바 12입",  cat:"푸드", tag:"sale", price:16800, was:21000, rating:4.2, reviews:410, shipFree:true, stock:22, created:"2025-11-07", img:"https://images.unsplash.com/photo-1610725664285-f04192207aa1?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p11", name:"USB-C 멀티허브",  cat:"테크", tag:"best", price:34900, was:null, rating:4.4, reviews:650,  shipFree:false, stock:17, created:"2025-08-19", img:"https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+  {id:"p12", name:"무드 테이블 램프", cat:"리빙", tag:"sale", price:26900, was:42000, rating:4.5, reviews:521, shipFree:true, stock:9,  created:"2026-01-12", img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=500&q=80", reviewsList: []},
+];
 
-    // ===== Utils =====
-    const KRW = new Intl.NumberFormat("ko-KR", { style:"currency", currency:"KRW" });
-    const $ = (sel, el=document) => el.querySelector(sel);
-    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
-    const daysBetween = (a,b) => Math.floor((new Date(a)-new Date(b))/(1000*60*60*24));
+// ===== Utils =====
+const KRW = new Intl.NumberFormat("ko-KR", { style:"currency", currency:"KRW" });
+const $ = (sel, el=document) => el.querySelector(sel);
+const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+const daysBetween = (a,b) => Math.floor((new Date(a)-new Date(b))/(1000*60*60*24));
 
-    // ===== State =====
-    const state = {
-      q: "",
-      cat: "ALL",
-      sort: "RECO",
-      onlySale: false,
-      onlyShipFree: false,
-      onlyInStock: false,
-      qty: Object.fromEntries(PRODUCTS.map(p => [p.id, 1])),
-      wish: new Set(),
-      cart: new Map(), // id -> {id, qty}
+// ===== State =====
+const state = {
+  q: "",
+  cat: "ALL",
+  sort: "RECO",
+  onlySale: false,
+  onlyShipFree: false,
+  onlyInStock: false,
+  qty: Object.fromEntries(PRODUCTS.map(p => [p.id, 1])),
+  wish: new Set(),
+  cart: new Map(), // id -> {id, qty}
+};
+
+// ===== Render products =====
+function computeList(){
+  let list = [...PRODUCTS];
+
+  // search
+  if(state.q.trim()){
+    const k = state.q.trim().toLowerCase();
+    list = list.filter(p => p.name.toLowerCase().includes(k) || p.cat.toLowerCase().includes(k));
+  }
+
+  // filters
+  if(state.cat !== "ALL") list = list.filter(p => p.cat === state.cat);
+  if(state.onlySale) list = list.filter(p => p.tag === "sale" || p.was);
+  if(state.onlyShipFree) list = list.filter(p => p.shipFree);
+  if(state.onlyInStock) list = list.filter(p => p.stock > 0);
+
+  // sort
+  const by = state.sort;
+  if(by === "PRICE_ASC") list.sort((a,b)=> a.price - b.price);
+  if(by === "PRICE_DESC") list.sort((a,b)=> b.price - a.price);
+  if(by === "RATING_DESC") list.sort((a,b)=> b.rating - a.rating);
+  if(by === "NEW_DESC") list.sort((a,b)=> new Date(b.created) - new Date(a.created));
+
+  // RECO: 간단 추천 점수(평점+리뷰+신상품 가중치-품절 패널티)
+  if(by === "RECO"){
+    const now = new Date();
+    const score = (p)=>{
+      const rec = Math.log10(p.reviews + 10) * 0.9;
+      const newness = Math.max(0, 40 - Math.abs(daysBetween(now, new Date(p.created)))) / 40;
+      const stock = p.stock > 0 ? 0.2 : -2.0;
+      const sale = (p.tag==="sale" || p.was) ? 0.25 : 0;
+      return p.rating + rec + newness + stock + sale;
+    };
+    list.sort((a,b)=> score(b)-score(a));
+  }
+
+  return list;
+}
+
+function tagLabel(tag){
+  if(tag==="sale") return {t:"SALE", cls:"sale"};
+  if(tag==="new") return {t:"NEW", cls:"new"};
+  if(tag==="best") return {t:"BEST", cls:"best"};
+  return {t:"", cls:""};
+}
+
+function cardHTML(p){
+  const t = tagLabel(p.tag);
+  const wished = state.wish.has(p.id) ? "active" : "";
+  const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
+  const was = p.was ? `<div class="was">${KRW.format(p.was)}</div>` : `<div class="was" style="visibility:hidden">₩0</div>`;
+  const stars = `<span class="stars" title="평점 ${p.rating}"><span class="star"></span> ${p.rating.toFixed(1)} <span class="subtle">(${p.reviews.toLocaleString()})</span></span>`;
+
+  return `
+    <article class="card" data-id="${p.id}">
+      <div class="thumb">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="showDetail('${p.id}')">
+        <span class="tag ${t.cls}">${t.t}</span>
+        <button class="wish ${wished}" type="button" aria-label="찜" data-wish="${p.id}">♥</button>
+      </div>
+      <div class="content">
+        <h3 class="title" style="cursor:pointer; text-decoration:underline;" onclick="showDetail('${p.id}')">${p.name}</h3>
+        <div class="meta">
+          <span>${p.cat}</span>
+          <span>•</span>
+          ${stars}
+        </div>
+        <div class="price-row">
+          <div class="price">
+            <div class="now">${KRW.format(p.price)}</div>
+            ${was}
+          </div>
+          ${out}
+        </div>
+
+        <div class="actions-row">
+          <div class="qty" aria-label="수량">
+            <button type="button" data-qty-minus="${p.id}" aria-label="감소">−</button>
+            <span id="qty-${p.id}">${state.qty[p.id] || 1}</span>
+            <button type="button" data-qty-plus="${p.id}" aria-label="증가">+</button>
+          </div>
+          <button class="buy" type="button" data-add="${p.id}" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
+            담기
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// ===== Detail Page =====
+function showDetail(id){
+  const p = PRODUCTS.find(x => x.id === id);
+  if(!p) return;
+
+  const detailContent = $("#detailContent");
+  const t = tagLabel(p.tag);
+  const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
+  const was = p.was ? `<div class="was" style="font-size:1.2rem; color:var(--muted); text-decoration:line-through;">${KRW.format(p.was)}</div>` : "";
+
+  detailContent.innerHTML = `
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:40px; align-items:start;">
+      <div style="border-radius:var(--radius2); overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow);">
+        <img src="${p.img}" alt="${p.name}" style="width:100%; display:block;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="display:flex; gap:10px;">
+          <span class="tag ${t.cls}" style="position:static; padding:8px 12px; font-size:14px;">${t.t}</span>
+          ${out}
+        </div>
+        <h2 style="font-size:2.5rem; margin:0;">${p.name}</h2>
+        <div style="font-size:1.1rem; color:var(--muted);">카테고리: ${p.cat} | 평점: ⭐ ${p.rating.toFixed(1)} (${p.reviews.toLocaleString()} 리뷰)</div>
+        <div style="border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0;">
+          ${was}
+          <div style="font-size:2.2rem; font-weight:900; color:var(--brand2);">${KRW.format(p.price)}</div>
+        </div>
+        <p style="line-height:1.6; font-size:1.1rem; color:var(--text); opacity:0.8;">
+          이 제품은 고품질 소재로 제작된 ${p.name}입니다. ${p.cat} 카테고리의 베스트 아이템으로, 
+          실제 사용자들의 높은 만족도를 얻고 있습니다. 지금 바로 장바구니에 담아보세요.
+          <br><br>
+          • 배송정보: ${p.shipFree ? "무료배송 (3만원 이상 결제 시)" : "배송비 3,000원"}
+          <br>
+          • 재고상황: ${p.stock > 0 ? `현재 ${p.stock}개 남음` : "현재 품절"}
+        </p>
+        <div class="actions-row" style="margin-top:20px;">
+          <div class="qty" style="padding:15px 20px;">
+            <button type="button" id="detail-minus">−</button>
+            <span id="detail-qty" style="font-size:1.2rem; min-width:30px;">${state.qty[p.id] || 1}</span>
+            <button type="button" id="detail-plus">+</button>
+          </div>
+          <button class="buy" type="button" id="detail-add" style="padding:15px 40px; font-size:1.2rem;" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
+            장바구니에 담기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Section -->
+    <div style="margin-top:60px; border-top:1px solid var(--line); padding-top:40px;">
+      <h3 style="font-size:1.8rem; margin-bottom:30px;">구매 고객 리뷰 (${p.reviewsList.length})</h3>
+      
+      <div id="reviewList" style="display:flex; flex-direction:column; gap:20px; margin-bottom:40px;">
+        ${p.reviewsList.length === 0 ? '<p style="color:var(--muted);">아직 작성된 리뷰가 없습니다. 첫 번째 리뷰를 남겨보세요!</p>' : 
+          p.reviewsList.map(r => `
+            <div style="background:var(--card2); padding:20px; border-radius:var(--radius); border:1px solid var(--line);">
+              <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <strong>${r.user}</strong>
+                <span style="color:var(--muted); font-size:0.9rem;">${r.date}</span>
+              </div>
+              <div style="color:#fbbf24; margin-bottom:10px;">${'★'.repeat(r.star)}${'☆'.repeat(5-r.star)}</div>
+              <p style="margin:0; line-height:1.5;">${r.text}</p>
+            </div>
+          `).join('')
+        }
+      </div>
+
+      <div style="background:var(--card); padding:30px; border-radius:var(--radius2); border:1px solid var(--brand); box-shadow:var(--shadow);">
+        <h4 style="margin-top:0; margin-bottom:20px;">리뷰 작성하기</h4>
+        <div style="margin-bottom:15px;">
+          <label style="display:block; margin-bottom:8px;">평점 선택</label>
+          <select id="reviewStar" style="width:100%; padding:10px; border-radius:10px; background:var(--bg); color:var(--text); border:1px solid var(--line); cursor:pointer;">
+            <option value="5">★★★★★ (아주 좋아요)</option>
+            <option value="4">★★★★☆ (좋아요)</option>
+            <option value="3">★★★☆☆ (보통이에요)</option>
+            <option value="2">★★☆☆☆ (그저 그래요)</option>
+            <option value="1">★☆☆☆☆ (별로예요)</option>
+          </select>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:8px;">내용</label>
+          <textarea id="reviewText" rows="4" style="width:100%; padding:15px; border-radius:10px; background:var(--bg); color:var(--text); border:1px solid var(--line); resize:none;" placeholder="제품에 대한 솔직한 후기를 남겨주세요."></textarea>
+        </div>
+        <button type="button" class="btn primary" id="btnSubmitReview" style="width:100%; justify-content:center; padding:15px;">리뷰 등록하기</button>
+      </div>
+    </div>
+  `;
+
+  // Detail events
+  $("#detail-minus").onclick = () => {
+    state.qty[p.id] = Math.max(1, (state.qty[p.id] || 1) - 1);
+    $("#detail-qty").textContent = state.qty[p.id];
+    const listQty = $("#qty-"+p.id);
+    if(listQty) listQty.textContent = state.qty[p.id];
+  };
+  $("#detail-plus").onclick = () => {
+    state.qty[p.id] = Math.min(99, (state.qty[p.id] || 1) + 1);
+    $("#detail-qty").textContent = state.qty[p.id];
+    const listQty = $("#qty-"+p.id);
+    if(listQty) listQty.textContent = state.qty[p.id];
+  };
+  $("#detail-add").onclick = () => addToCart(p.id, state.qty[p.id] || 1);
+
+  // Submit Review event
+  $("#btnSubmitReview").onclick = () => {
+    if(!loggedInId) return toast("로그인이 필요합니다.");
+    const star = parseInt($("#reviewStar").value);
+    const text = $("#reviewText").value.trim();
+    
+    if(!text) return toast("리뷰 내용을 입력해주세요.");
+
+    const newReview = {
+      user: loggedInId,
+      star: star,
+      text: text,
+      date: new Date().toISOString().split('T')[0]
     };
 
-    // ===== Render products =====
-    function computeList(){
-      let list = [...PRODUCTS];
+    p.reviewsList.unshift(newReview);
+    p.reviews += 1;
+    p.rating = ((p.rating * (p.reviews - 1)) + star) / p.reviews;
 
-      // search
-      if(state.q.trim()){
-        const k = state.q.trim().toLowerCase();
-        list = list.filter(p => p.name.toLowerCase().includes(k) || p.cat.toLowerCase().includes(k));
-      }
+    toast("리뷰가 등록되었습니다!");
+    showDetail(id);
+  };
 
-      // filters
-      if(state.cat !== "ALL") list = list.filter(p => p.cat === state.cat);
-      if(state.onlySale) list = list.filter(p => p.tag === "sale" || p.was);
-      if(state.onlyShipFree) list = list.filter(p => p.shipFree);
-      if(state.onlyInStock) list = list.filter(p => p.stock > 0);
+  // UI Switch
+  $("#homeView").style.display = "none";
+  $("#detailView").style.display = "block";
+  window.scrollTo(0, 0);
+}
 
-      // sort
-      const by = state.sort;
-      if(by === "PRICE_ASC") list.sort((a,b)=> a.price - b.price);
-      if(by === "PRICE_DESC") list.sort((a,b)=> b.price - a.price);
-      if(by === "RATING_DESC") list.sort((a,b)=> b.rating - a.rating);
-      if(by === "NEW_DESC") list.sort((a,b)=> new Date(b.created) - new Date(a.created));
+function goBackToList(){
+  $("#homeView").style.display = "block";
+  $("#detailView").style.display = "none";
+  window.scrollTo(0, 0);
+  render();
+}
 
-      // RECO: 간단 추천 점수(평점+리뷰+신상품 가중치-품절 패널티)
-      if(by === "RECO"){
-        const now = new Date();
-        const score = (p)=>{
-          const rec = Math.log10(p.reviews + 10) * 0.9;
-          const newness = Math.max(0, 40 - Math.abs(daysBetween(now, new Date(p.created)))) / 40;
-          const stock = p.stock > 0 ? 0.2 : -2.0;
-          const sale = (p.tag==="sale" || p.was) ? 0.25 : 0;
-          return p.rating + rec + newness + stock + sale;
-        };
-        list.sort((a,b)=> score(b)-score(a));
-      }
+$("#btnBackToList").addEventListener("click", goBackToList);
 
-      return list;
-    }
+function render(){
+  const list = computeList();
+  $("#countAll").textContent = PRODUCTS.length.toString();
+  $("#countShown").textContent = list.length.toString();
 
-    function tagLabel(tag){
-      if(tag==="sale") return {t:"SALE", cls:"sale"};
-      if(tag==="new") return {t:"NEW", cls:"new"};
-      if(tag==="best") return {t:"BEST", cls:"best"};
-      return {t:"", cls:""};
-    }
+  const grid = $("#grid");
+  grid.innerHTML = list.map(cardHTML).join("");
 
-        function cardHTML(p){
-          const t = tagLabel(p.tag);
-          const wished = state.wish.has(p.id) ? "active" : "";
-          const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
-          const was = p.was ? `<div class="was">${KRW.format(p.was)}</div>` : `<div class="was" style="visibility:hidden">₩0</div>`;
-          const stars = `<span class="stars" title="평점 ${p.rating}"><span class="star"></span> ${p.rating.toFixed(1)} <span class="subtle">(${p.reviews.toLocaleString()})</span></span>`;
-    
-          return `
-            <article class="card" data-id="${p.id}">
-              <div class="thumb">
-                <img src="${p.img}" alt="${p.name}" loading="lazy" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="showDetail('${p.id}')">
-                <span class="tag ${t.cls}">${t.t}</span>
-                <button class="wish ${wished}" type="button" aria-label="찜" data-wish="${p.id}">♥</button>
+  // bind events
+  $$("[data-qty-minus]").forEach(b => b.addEventListener("click", ()=>{
+    const id = b.getAttribute("data-qty-minus");
+    state.qty[id] = Math.max(1, (state.qty[id]||1) - 1);
+    const el = $("#qty-"+id);
+    if(el) el.textContent = state.qty[id];
+  }));
+  $$("[data-qty-plus]").forEach(b => b.addEventListener("click", ()=>{
+    const id = b.getAttribute("data-qty-plus");
+    state.qty[id] = Math.min(99, (state.qty[id]||1) + 1);
+    const el = $("#qty-"+id);
+    if(el) el.textContent = state.qty[id];
+  }));
+  $$("[data-add]").forEach(b => b.addEventListener("click", ()=>{
+    const id = b.getAttribute("data-add");
+    const p = PRODUCTS.find(x=>x.id===id);
+    if(!p || p.stock<=0) return;
+    addToCart(id, state.qty[id]||1);
+  }));
+  $$("[data-wish]").forEach(b => b.addEventListener("click", ()=>{
+    const id = b.getAttribute("data-wish");
+    if(state.wish.has(id)) state.wish.delete(id);
+    else state.wish.add(id);
+    b.classList.toggle("active");
+    toast(state.wish.has(id) ? "찜 목록에 추가했어요." : "찜을 해제했어요.");
+  }));
+}
+
+// ===== Cart =====
+function addToCart(id, qty){
+  if(!loggedInId){
+    return toast("로그인이 필요합니다.");
+  }
+  const cur = state.cart.get(id)?.qty || 0;
+  state.cart.set(id, {id, qty: cur + qty});
+  updateCartUI();
+  toast("장바구니에 담았습니다.");
+}
+
+function removeFromCart(id){
+  state.cart.delete(id);
+  updateCartUI();
+}
+
+function changeCartQty(id, delta){
+  const item = state.cart.get(id);
+  if(!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  state.cart.set(id, item);
+  updateCartUI();
+}
+
+function cartTotal(){
+  let sum = 0;
+  for(const [id, item] of state.cart){
+    const p = PRODUCTS.find(x=>x.id===id);
+    if(p) sum += p.price * item.qty;
+  }
+  return sum;
+}
+
+function updateCartUI(){
+  const count = Array.from(state.cart.values()).reduce((a,b)=>a+b.qty,0);
+  $("#cartCount").textContent = count.toString();
+
+  const list = $("#cartList");
+  if(count === 0){
+    list.innerHTML = `<div class="small" style="padding:12px; color: var(--muted)">장바구니가 비어 있습니다.</div>`;
+  } else {
+    list.innerHTML = Array.from(state.cart.values()).map(({id, qty})=>{
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p) return "";
+      return `
+        <div class="cart-item">
+          <div class="cart-thumb" aria-hidden="true"></div>
+          <div class="cart-info">
+            <p class="n">${p.name}</p>
+            <p class="m">${p.cat} • ${p.shipFree ? "무료배송" : "배송비 별도"}</p>
+            <div class="cart-ops">
+              <div class="mini-qty">
+                <button type="button" data-cart-minus="${id}">−</button>
+                <span class="amt">${qty}</span>
+                <button type="button" data-cart-plus="${id}">+</button>
               </div>
-              <div class="content">
-                <h3 class="title" style="cursor:pointer; text-decoration:underline;" onclick="showDetail('${p.id}')">${p.name}</h3>
-                <div class="meta">
-                  <span>${p.cat}</span>
-                  <span>•</span>
-                  ${stars}
-                </div>
-                <div class="price-row">
-                  <div class="price">
-                    <div class="now">${KRW.format(p.price)}</div>
-                    ${was}
-                  </div>
-                  ${out}
-                </div>
-    
-                <div class="actions-row">
-                  <div class="qty" aria-label="수량">
-                    <button type="button" data-qty-minus="${p.id}" aria-label="감소">−</button>
-                    <span id="qty-${p.id}">${state.qty[p.id] || 1}</span>
-                    <button type="button" data-qty-plus="${p.id}" aria-label="증가">+</button>
-                  </div>
-                  <button class="buy" type="button" data-add="${p.id}" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
-                    담기
-                  </button>
-                </div>
-              </div>
-            </article>
-          `;
-        }
-    
-        // ===== Detail Page =====
-        function showDetail(id){
-          const p = PRODUCTS.find(x => x.id === id);
-          if(!p) return;
-    
-          const detailContent = $("#detailContent");
-          const t = tagLabel(p.tag);
-          const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
-          const was = p.was ? `<div class="was" style="font-size:1.2rem; color:var(--muted); text-decoration:line-through;">${KRW.format(p.was)}</div>` : "";
-    
-          detailContent.innerHTML = `
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:40px; align-items:start;">
-              <div style="border-radius:var(--radius2); overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow);">
-                <img src="${p.img}" alt="${p.name}" style="width:100%; display:block;">
-              </div>
-              <div style="display:flex; flex-direction:column; gap:20px;">
-                <div style="display:flex; gap:10px;">
-                  <span class="tag ${t.cls}" style="position:static; padding:8px 12px; font-size:14px;">${t.t}</span>
-                  ${out}
-                </div>
-                <h2 style="font-size:2.5rem; margin:0;">${p.name}</h2>
-                <div style="font-size:1.1rem; color:var(--muted);">카테고리: ${p.cat} | 평점: ⭐ ${p.rating} (${p.reviews.toLocaleString()} 리뷰)</div>
-                <div style="border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0;">
-                  ${was}
-                  <div style="font-size:2.2rem; font-weight:900; color:var(--brand2);">${KRW.format(p.price)}</div>
-                </div>
-                <p style="line-height:1.6; font-size:1.1rem; color:var(--text); opacity:0.8;">
-                  이 제품은 고품질 소재로 제작된 ${p.name}입니다. ${p.cat} 카테고리의 베스트 아이템으로, 
-                  실제 사용자들의 높은 만족도를 얻고 있습니다. 지금 바로 장바구니에 담아보세요.
-                  <br><br>
-                  • 배송정보: ${p.shipFree ? "무료배송 (3만원 이상 결제 시)" : "배송비 3,000원"}
-                  <br>
-                  • 재고상황: ${p.stock > 0 ? `현재 ${p.stock}개 남음` : "현재 품절"}
-                </p>
-                <div class="actions-row" style="margin-top:20px;">
-                  <div class="qty" style="padding:15px 20px;">
-                    <button type="button" id="detail-minus">−</button>
-                    <span id="detail-qty" style="font-size:1.2rem; min-width:30px;">${state.qty[p.id] || 1}</span>
-                    <button type="button" id="detail-plus">+</button>
-                  </div>
-                  <button class="buy" type="button" id="detail-add" style="padding:15px 40px; font-size:1.2rem;" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
-                    장바구니에 담기
-                  </button>
-                </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <b>${KRW.format(p.price * qty)}</b>
+                <button type="button" class="remove" data-cart-remove="${id}">삭제</button>
               </div>
             </div>
-          `;
-    
-          // Detail events
-          $("#detail-minus").onclick = () => {
-            state.qty[p.id] = Math.max(1, (state.qty[p.id] || 1) - 1);
-            $("#detail-qty").textContent = state.qty[p.id];
-            const listQty = $("#qty-"+p.id);
-            if(listQty) listQty.textContent = state.qty[p.id];
-          };
-          $("#detail-plus").onclick = () => {
-            state.qty[p.id] = Math.min(99, (state.qty[p.id] || 1) + 1);
-            $("#detail-qty").textContent = state.qty[p.id];
-            const listQty = $("#qty-"+p.id);
-            if(listQty) listQty.textContent = state.qty[p.id];
-          };
-          $("#detail-add").onclick = () => addToCart(p.id, state.qty[p.id] || 1);
-    
-          // UI Switch
-          $("#homeView").style.display = "none";
-          $("#detailView").style.display = "block";
-          window.scrollTo(0, 0);
-        }
-    
-        function goBackToList(){
-          $("#homeView").style.display = "block";
-          $("#detailView").style.display = "none";
-          window.scrollTo(0, 0);
-        }
-    
-        $("#btnBackToList").addEventListener("click", goBackToList);
-    
-        function render(){
-      const list = computeList();
-      $("#countAll").textContent = PRODUCTS.length.toString();
-      $("#countShown").textContent = list.length.toString();
+          </div>
+        </div>
+      `;
+    }).join("");
 
-      const grid = $("#grid");
-      grid.innerHTML = list.map(cardHTML).join("");
+    $$("[data-cart-minus]").forEach(b => b.addEventListener("click", ()=> changeCartQty(b.dataset.cartMinus, -1)));
+    $$("[data-cart-plus]").forEach(b => b.addEventListener("click", ()=> changeCartQty(b.dataset.cartPlus, +1)));
+    $$("[data-cart-remove]").forEach(b => b.addEventListener("click", ()=> removeFromCart(b.dataset.cartRemove)));
+  }
 
-      // bind events
-      $$("[data-qty-minus]").forEach(b => b.addEventListener("click", ()=>{
-        const id = b.getAttribute("data-qty-minus");
-        state.qty[id] = Math.max(1, (state.qty[id]||1) - 1);
-        const el = $("#qty-"+id);
-        if(el) el.textContent = state.qty[id];
-      }));
-      $$("[data-qty-plus]").forEach(b => b.addEventListener("click", ()=>{
-        const id = b.getAttribute("data-qty-plus");
-        state.qty[id] = Math.min(99, (state.qty[id]||1) + 1);
-        const el = $("#qty-"+id);
-        if(el) el.textContent = state.qty[id];
-      }));
-      $$("[data-add]").forEach(b => b.addEventListener("click", ()=>{
-        const id = b.getAttribute("data-add");
-        const p = PRODUCTS.find(x=>x.id===id);
-        if(!p || p.stock<=0) return;
-        addToCart(id, state.qty[id]||1);
-      }));
-      $$("[data-wish]").forEach(b => b.addEventListener("click", ()=>{
-        const id = b.getAttribute("data-wish");
-        if(state.wish.has(id)) state.wish.delete(id);
-        else state.wish.add(id);
-        b.classList.toggle("active");
-        toast(state.wish.has(id) ? "찜 목록에 추가했어요." : "찜을 해제했어요.");
-      }));
-    }
+  $("#cartTotal").textContent = KRW.format(cartTotal());
+}
 
-    // ===== Cart =====
-    function addToCart(id, qty){
-      if(!loggedInId){
-        return toast("로그인이 필요합니다.");
-      }
-      const cur = state.cart.get(id)?.qty || 0;
-      state.cart.set(id, {id, qty: cur + qty});
-      updateCartUI();
-      toast("장바구니에 담았습니다.");
-    }
+// ===== Drawer =====
+function openCart(){
+  $("#backdrop").classList.add("show");
+  $("#drawer").classList.add("open");
+  document.body.style.overflow = "hidden";
+  updateCartUI();
+}
+function closeCart(){
+  $("#backdrop").classList.remove("show");
+  $("#drawer").classList.remove("open");
+  document.body.style.overflow = "";
+}
 
-    function removeFromCart(id){
-      state.cart.delete(id);
-      updateCartUI();
-    }
+// ===== Toast =====
+let toastTimer = null;
+function toast(msg){
+  const t = $("#toast");
+  $("#toastMsg").textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove("show"), 1600);
+}
 
-    function changeCartQty(id, delta){
-      const item = state.cart.get(id);
-      if(!item) return;
-      item.qty = Math.max(1, item.qty + delta);
-      state.cart.set(id, item);
-      updateCartUI();
-    }
+// ===== Events (non-login/theme) =====
+$("#btnCart").addEventListener("click", openCart);
+$("#btnCloseCart").addEventListener("click", closeCart);
+$("#backdrop").addEventListener("click", closeCart);
 
-    function cartTotal(){
-      let sum = 0;
-      for(const [id, item] of state.cart){
-        const p = PRODUCTS.find(x=>x.id===id);
-        if(p) sum += p.price * item.qty;
-      }
-      return sum;
-    }
+$("#btnEmpty").addEventListener("click", ()=>{
+  state.cart.clear();
+  updateCartUI();
+  toast("장바구니를 비웠습니다.");
+});
 
-    function updateCartUI(){
-      const count = Array.from(state.cart.values()).reduce((a,b)=>a+b.qty,0);
-      $("#cartCount").textContent = count.toString();
+$("#btnCheckout").addEventListener("click", ()=>{
+  if(state.cart.size === 0) return toast("장바구니가 비어 있어요.");
+  toast("데모: 결제 화면으로 이동(가정)");
+});
 
-      const list = $("#cartList");
-      if(count === 0){
-        list.innerHTML = `<div class="small" style="padding:12px; color: var(--muted)">장바구니가 비어 있습니다.</div>`;
-      } else {
-        list.innerHTML = Array.from(state.cart.values()).map(({id, qty})=>{
-          const p = PRODUCTS.find(x=>x.id===id);
-          if(!p) return "";
-          return `
-            <div class="cart-item">
-              <div class="cart-thumb" aria-hidden="true"></div>
-              <div class="cart-info">
-                <p class="n">${p.name}</p>
-                <p class="m">${p.cat} • ${p.shipFree ? "무료배송" : "배송비 별도"}</p>
-                <div class="cart-ops">
-                  <div class="mini-qty">
-                    <button type="button" data-cart-minus="${id}">−</button>
-                    <span class="amt">${qty}</span>
-                    <button type="button" data-cart-plus="${id}">+</button>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:8px;">
-                    <b>${KRW.format(p.price * qty)}</b>
-                    <button type="button" class="remove" data-cart-remove="${id}">삭제</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join("");
+$("#q").addEventListener("input", (e)=>{
+  state.q = e.target.value;
+  render();
+});
 
-        $$("[data-cart-minus]").forEach(b => b.addEventListener("click", ()=> changeCartQty(b.dataset.cartMinus, -1)));
-        $$("[data-cart-plus]").forEach(b => b.addEventListener("click", ()=> changeCartQty(b.dataset.cartPlus, +1)));
-        $$("[data-cart-remove]").forEach(b => b.addEventListener("click", ()=> removeFromCart(b.dataset.cartRemove)));
-      }
+$("#filterCat").addEventListener("change", (e)=>{
+  state.cat = e.target.value;
+  render();
+});
 
-      $("#cartTotal").textContent = KRW.format(cartTotal());
-    }
+$("#sortBy").addEventListener("change", (e)=>{
+  state.sort = e.target.value;
+  render();
+});
 
-    // ===== Drawer =====
-    function openCart(){
-      $("#backdrop").classList.add("show");
-      $("#drawer").classList.add("open");
-      document.body.style.overflow = "hidden";
-      updateCartUI();
-    }
-    function closeCart(){
-      $("#backdrop").classList.remove("show");
-      $("#drawer").classList.remove("open");
-      document.body.style.overflow = "";
-    }
+$("#onlySale").addEventListener("change", (e)=>{
+  state.onlySale = e.target.checked;
+  render();
+});
 
-    // ===== Toast =====
-    let toastTimer = null;
-    function toast(msg){
-      const t = $("#toast");
-      $("#toastMsg").textContent = msg;
-      t.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=> t.classList.remove("show"), 1600);
-    }
+$("#onlyShipFree").addEventListener("change", (e)=>{
+  state.onlyShipFree = e.target.checked;
+  render();
+});
 
-    // ===== Events (non-login/theme) =====
-    $("#btnCart").addEventListener("click", openCart);
-    $("#btnCloseCart").addEventListener("click", closeCart);
-    $("#backdrop").addEventListener("click", closeCart);
+$("#onlyInStock").addEventListener("change", (e)=>{
+  state.onlyInStock = e.target.checked;
+  render();
+});
 
-    $("#btnEmpty").addEventListener("click", ()=>{
-      state.cart.clear();
-      updateCartUI();
-      toast("장바구니를 비웠습니다.");
-    });
+$$(".cat").forEach(btn => btn.addEventListener("click", ()=>{
+  state.cat = btn.dataset.cat;
+  $("#filterCat").value = state.cat;
+  render();
+  document.querySelector("#products").scrollIntoView({behavior:"smooth", block:"start"});
+}));
 
-    $("#btnCheckout").addEventListener("click", ()=>{
-      if(state.cart.size === 0) return toast("장바구니가 비어 있어요.");
-      toast("데모: 결제 화면으로 이동(가정)");
-    });
+$("#btnClear").addEventListener("click", ()=>{
+  state.q = "";
+  $("#q").value = "";
+  state.cat = "ALL";
+  $("#filterCat").value = "ALL";
+  state.sort = "RECO";
+  $("#sortBy").value = "RECO";
+  state.onlySale = false; $("#onlySale").checked = false;
+  state.onlyShipFree = false; $("#onlyShipFree").checked = false;
+  state.onlyInStock = false; $("#onlyInStock").checked = false;
+  render();
+  toast("초기화 완료");
+});
 
-    $("#q").addEventListener("input", (e)=>{
-      state.q = e.target.value;
-      render();
-    });
+$("#btnRandomPick").addEventListener("click", ()=>{
+  const list = computeList();
+  if(list.length===0) return toast("조건에 맞는 상품이 없어요.");
+  const pick = list[Math.floor(Math.random()*list.length)];
+  toast(`추천: ${pick.name}`);
+  const card = document.querySelector(`.card[data-id="${pick.id}"]`);
+  if(card) card.scrollIntoView({behavior:"smooth", block:"center"});
+});
 
-    $("#filterCat").addEventListener("change", (e)=>{
-      state.cat = e.target.value;
-      render();
-    });
+// 단축키: Ctrl + /
+window.addEventListener("keydown", (e)=>{
+  if(e.ctrlKey && e.key === "/"){
+    e.preventDefault();
+    $("#q").focus();
+  }
+  if(e.key === "Escape"){
+    closeCart();
+  }
+});
 
-    $("#sortBy").addEventListener("change", (e)=>{
-      state.sort = e.target.value;
-      render();
-    });
+// ===== Login (persist with localStorage) =====
+const LS_LOGIN_KEY = "vibeshop_login_id";
 
-    $("#onlySale").addEventListener("change", (e)=>{
-      state.onlySale = e.target.checked;
-      render();
-    });
+function genLoginId(){
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const digits = "0123456789";
 
-    $("#onlyShipFree").addEventListener("change", (e)=>{
-      state.onlyShipFree = e.target.checked;
-      render();
-    });
+  let a = "";
+  for(let i=0;i<4;i++) a += letters[Math.floor(Math.random() * letters.length)];
 
-    $("#onlyInStock").addEventListener("change", (e)=>{
-      state.onlyInStock = e.target.checked;
-      render();
-    });
+  let b = "";
+  for(let i=0;i<4;i++) b += digits[Math.floor(Math.random() * digits.length)];
 
-    $$(".cat").forEach(btn => btn.addEventListener("click", ()=>{
-      state.cat = btn.dataset.cat;
-      $("#filterCat").value = state.cat;
-      render();
-      document.querySelector("#products").scrollIntoView({behavior:"smooth", block:"start"});
-    }));
+  return a + b;
+}
 
-    $("#btnClear").addEventListener("click", ()=>{
-      state.q = "";
-      $("#q").value = "";
-      state.cat = "ALL";
-      $("#filterCat").value = "ALL";
-      state.sort = "RECO";
-      $("#sortBy").value = "RECO";
-      state.onlySale = false; $("#onlySale").checked = false;
-      state.onlyShipFree = false; $("#onlyShipFree").checked = false;
-      state.onlyInStock = false; $("#onlyInStock").checked = false;
-      render();
-      toast("초기화 완료");
-    });
+let loggedInId = localStorage.getItem(LS_LOGIN_KEY); // 새로고침 유지
 
-    $("#btnRandomPick").addEventListener("click", ()=>{
-      const list = computeList();
-      if(list.length===0) return toast("조건에 맞는 상품이 없어요.");
-      const pick = list[Math.floor(Math.random()*list.length)];
-      toast(`추천: ${pick.name}`);
-      const card = document.querySelector(`.card[data-id="${pick.id}"]`);
-      if(card) card.scrollIntoView({behavior:"smooth", block:"center"});
-    });
+function setLoginUI(){
+  const btn = $("#btnLogin");
+  const acc = $("#accountArea");
+  if(!btn || !acc) return;
 
-    // 단축키: Ctrl + /
-    window.addEventListener("keydown", (e)=>{
-      if(e.ctrlKey && e.key === "/"){
-        e.preventDefault();
-        $("#q").focus();
-      }
-      if(e.key === "Escape"){
-        closeCart();
-      }
-    });
+  if(loggedInId){
+    btn.innerHTML = `<span aria-hidden="true">✅</span> 로그아웃`;
+    btn.classList.remove("primary");
+    btn.classList.add("ghost");
+    btn.setAttribute("aria-pressed", "true");
 
-    // ===== Login (persist with localStorage) =====
-    const LS_LOGIN_KEY = "vibeshop_login_id";
+    acc.style.display = "block";
+    acc.innerHTML = `환영합니다, <strong>${loggedInId}</strong>`;
+  } else {
+    btn.innerHTML = `<span aria-hidden="true">👤</span> 로그인`;
+    btn.classList.add("primary");
+    btn.classList.remove("ghost");
+    btn.setAttribute("aria-pressed", "false");
 
-    function genLoginId(){
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      const digits = "0123456789";
+    acc.style.display = "none";
+    acc.textContent = "";
+  }
+}
 
-      let a = "";
-      for(let i=0;i<4;i++) a += letters[Math.floor(Math.random() * letters.length)];
-
-      let b = "";
-      for(let i=0;i<4;i++) b += digits[Math.floor(Math.random() * digits.length)];
-
-      return a + b;
-    }
-
-    let loggedInId = localStorage.getItem(LS_LOGIN_KEY); // 새로고침 유지
-
-    function setLoginUI(){
-      const btn = $("#btnLogin");
-      const acc = $("#accountArea");
-      if(!btn || !acc) return;
-
-      if(loggedInId){
-        btn.innerHTML = `<span aria-hidden="true">✅</span> 로그아웃`;
-        btn.classList.remove("primary");
-        btn.classList.add("ghost");
-        btn.setAttribute("aria-pressed", "true");
-
-        acc.style.display = "block";
-        acc.innerHTML = `환영합니다, <strong>${loggedInId}</strong>`;
-      } else {
-        btn.innerHTML = `<span aria-hidden="true">👤</span> 로그인`;
-        btn.classList.add("primary");
-        btn.classList.remove("ghost");
-        btn.setAttribute("aria-pressed", "false");
-
-        acc.style.display = "none";
-        acc.textContent = "";
-      }
-    }
-
-    $("#btnLogin").addEventListener("click", ()=>{
-      if(loggedInId){
-        const prev = loggedInId;
-        loggedInId = null;
-        localStorage.removeItem(LS_LOGIN_KEY);
-        state.cart.clear(); // Clear cart on logout
-        updateCartUI();    // Update cart UI after clearing
-        setLoginUI();
-        toast(`로그아웃 완료: ${prev}`);
-      } else {
-        loggedInId = genLoginId();
-        localStorage.setItem(LS_LOGIN_KEY, loggedInId);
-        setLoginUI();
-        toast(`로그인 완료: ${loggedInId}`);
-      }
-    });
-
-    // ===== Theme (light/dark) persist =====
-    const LS_THEME_KEY = "vibeshop_theme"; // "dark" | "light"
-
-    function applyTheme(theme){
-      const root = document.documentElement;
-      const icon = $("#btnTheme")?.querySelector("span");
-      const t = (theme === "light") ? "light" : "dark";
-      root.setAttribute("data-theme", t);
-
-      if(icon){
-        icon.textContent = (t === "light") ? "☀️" : "🌙";
-      }
-      localStorage.setItem(LS_THEME_KEY, t);
-    }
-
-    function initTheme(){
-      const saved = localStorage.getItem(LS_THEME_KEY);
-      applyTheme(saved || "dark");
-    }
-
-    $("#btnTheme").addEventListener("click", ()=>{
-      const cur = document.documentElement.getAttribute("data-theme") || "dark";
-      applyTheme(cur === "dark" ? "light" : "dark");
-      toast(`테마: ${document.documentElement.getAttribute("data-theme") === "light" ? "라이트" : "다크"}`);
-    });
-
-    // ===== Init =====
-    $("#year").textContent = new Date().getFullYear();
-    initTheme();
+$("#btnLogin").addEventListener("click", ()=>{
+  if(loggedInId){
+    const prev = loggedInId;
+    loggedInId = null;
+    localStorage.removeItem(LS_LOGIN_KEY);
+    state.cart.clear(); // Clear cart on logout
+    updateCartUI();    // Update cart UI after clearing
     setLoginUI();
-    render();
-    updateCartUI();
+    toast(`로그아웃 완료: ${prev}`);
+  } else {
+    loggedInId = genLoginId();
+    localStorage.setItem(LS_LOGIN_KEY, loggedInId);
+    setLoginUI();
+    toast(`로그인 완료: ${loggedInId}`);
+  }
+});
+
+// ===== Theme (light/dark) persist =====
+const LS_THEME_KEY = "vibeshop_theme"; // "dark" | "light"
+
+function applyTheme(theme){
+  const root = document.documentElement;
+  const icon = $("#btnTheme")?.querySelector("span");
+  const t = (theme === "light") ? "light" : "dark";
+  root.setAttribute("data-theme", t);
+
+  if(icon){
+    icon.textContent = (t === "light") ? "☀️" : "🌙";
+  }
+  localStorage.setItem(LS_THEME_KEY, t);
+}
+
+function initTheme(){
+  const saved = localStorage.getItem(LS_THEME_KEY);
+  applyTheme(saved || "dark");
+}
+
+$("#btnTheme").addEventListener("click", ()=>{
+  const cur = document.documentElement.getAttribute("data-theme") || "dark";
+  applyTheme(cur === "dark" ? "light" : "dark");
+  toast(`테마: ${document.documentElement.getAttribute("data-theme") === "light" ? "라이트" : "다크"}`);
+});
+
+// ===== Init =====
+$("#year").textContent = new Date().getFullYear();
+initTheme();
+setLoginUI();
+render();
+updateCartUI();
