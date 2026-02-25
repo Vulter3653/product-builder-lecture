@@ -79,50 +79,128 @@
       return {t:"", cls:""};
     }
 
-    function cardHTML(p){
-      const t = tagLabel(p.tag);
-      const wished = state.wish.has(p.id) ? "active" : "";
-      const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
-      const was = p.was ? `<div class="was">${KRW.format(p.was)}</div>` : `<div class="was" style="visibility:hidden">₩0</div>`;
-      const stars = `<span class="stars" title="평점 ${p.rating}"><span class="star"></span> ${p.rating.toFixed(1)} <span class="subtle">(${p.reviews.toLocaleString()})</span></span>`;
-
-      return `
-        <article class="card" data-id="${p.id}">
-          <div class="thumb">
-            <img src="${p.img}" alt="${p.name}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
-            <span class="tag ${t.cls}">${t.t}</span>
-            <button class="wish ${wished}" type="button" aria-label="찜" data-wish="${p.id}">♥</button>
-          </div>
-          <div class="content">
-            <h3 class="title">${p.name}</h3>
-            <div class="meta">
-              <span>${p.cat}</span>
-              <span>•</span>
-              ${stars}
-            </div>
-            <div class="price-row">
-              <div class="price">
-                <div class="now">${KRW.format(p.price)}</div>
-                ${was}
+        function cardHTML(p){
+          const t = tagLabel(p.tag);
+          const wished = state.wish.has(p.id) ? "active" : "";
+          const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
+          const was = p.was ? `<div class="was">${KRW.format(p.was)}</div>` : `<div class="was" style="visibility:hidden">₩0</div>`;
+          const stars = `<span class="stars" title="평점 ${p.rating}"><span class="star"></span> ${p.rating.toFixed(1)} <span class="subtle">(${p.reviews.toLocaleString()})</span></span>`;
+    
+          return `
+            <article class="card" data-id="${p.id}">
+              <div class="thumb">
+                <img src="${p.img}" alt="${p.name}" loading="lazy" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="showDetail('${p.id}')">
+                <span class="tag ${t.cls}">${t.t}</span>
+                <button class="wish ${wished}" type="button" aria-label="찜" data-wish="${p.id}">♥</button>
               </div>
-              ${out}
-            </div>
-
-            <div class="actions-row">
-              <div class="qty" aria-label="수량">
-                <button type="button" data-qty-minus="${p.id}" aria-label="감소">−</button>
-                <span id="qty-${p.id}">${state.qty[p.id] || 1}</span>
-                <button type="button" data-qty-plus="${p.id}" aria-label="증가">+</button>
+              <div class="content">
+                <h3 class="title" style="cursor:pointer; text-decoration:underline;" onclick="showDetail('${p.id}')">${p.name}</h3>
+                <div class="meta">
+                  <span>${p.cat}</span>
+                  <span>•</span>
+                  ${stars}
+                </div>
+                <div class="price-row">
+                  <div class="price">
+                    <div class="now">${KRW.format(p.price)}</div>
+                    ${was}
+                  </div>
+                  ${out}
+                </div>
+    
+                <div class="actions-row">
+                  <div class="qty" aria-label="수량">
+                    <button type="button" data-qty-minus="${p.id}" aria-label="감소">−</button>
+                    <span id="qty-${p.id}">${state.qty[p.id] || 1}</span>
+                    <button type="button" data-qty-plus="${p.id}" aria-label="증가">+</button>
+                  </div>
+                  <button class="buy" type="button" data-add="${p.id}" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
+                    담기
+                  </button>
+                </div>
               </div>
-              <button class="buy" type="button" data-add="${p.id}" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
-                담기
-              </button>
+            </article>
+          `;
+        }
+    
+        // ===== Detail Page =====
+        function showDetail(id){
+          const p = PRODUCTS.find(x => x.id === id);
+          if(!p) return;
+    
+          const detailContent = $("#detailContent");
+          const t = tagLabel(p.tag);
+          const out = p.stock<=0 ? "<span class='pill hot'>품절</span>" : (p.shipFree ? "<span class='pill'>무료배송</span>" : "<span class='pill'>배송비 별도</span>");
+          const was = p.was ? `<div class="was" style="font-size:1.2rem; color:var(--muted); text-decoration:line-through;">${KRW.format(p.was)}</div>` : "";
+    
+          detailContent.innerHTML = `
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:40px; align-items:start;">
+              <div style="border-radius:var(--radius2); overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow);">
+                <img src="${p.img}" alt="${p.name}" style="width:100%; display:block;">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:20px;">
+                <div style="display:flex; gap:10px;">
+                  <span class="tag ${t.cls}" style="position:static; padding:8px 12px; font-size:14px;">${t.t}</span>
+                  ${out}
+                </div>
+                <h2 style="font-size:2.5rem; margin:0;">${p.name}</h2>
+                <div style="font-size:1.1rem; color:var(--muted);">카테고리: ${p.cat} | 평점: ⭐ ${p.rating} (${p.reviews.toLocaleString()} 리뷰)</div>
+                <div style="border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0;">
+                  ${was}
+                  <div style="font-size:2.2rem; font-weight:900; color:var(--brand2);">${KRW.format(p.price)}</div>
+                </div>
+                <p style="line-height:1.6; font-size:1.1rem; color:var(--text); opacity:0.8;">
+                  이 제품은 고품질 소재로 제작된 ${p.name}입니다. ${p.cat} 카테고리의 베스트 아이템으로, 
+                  실제 사용자들의 높은 만족도를 얻고 있습니다. 지금 바로 장바구니에 담아보세요.
+                  <br><br>
+                  • 배송정보: ${p.shipFree ? "무료배송 (3만원 이상 결제 시)" : "배송비 3,000원"}
+                  <br>
+                  • 재고상황: ${p.stock > 0 ? `현재 ${p.stock}개 남음` : "현재 품절"}
+                </p>
+                <div class="actions-row" style="margin-top:20px;">
+                  <div class="qty" style="padding:15px 20px;">
+                    <button type="button" id="detail-minus">−</button>
+                    <span id="detail-qty" style="font-size:1.2rem; min-width:30px;">${state.qty[p.id] || 1}</span>
+                    <button type="button" id="detail-plus">+</button>
+                  </div>
+                  <button class="buy" type="button" id="detail-add" style="padding:15px 40px; font-size:1.2rem;" ${p.stock<=0 ? "disabled style='opacity:.55; cursor:not-allowed'" : ""}>
+                    장바구니에 담기
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </article>
-      `;
-    }
-    function render(){
+          `;
+    
+          // Detail events
+          $("#detail-minus").onclick = () => {
+            state.qty[p.id] = Math.max(1, (state.qty[p.id] || 1) - 1);
+            $("#detail-qty").textContent = state.qty[p.id];
+            const listQty = $("#qty-"+p.id);
+            if(listQty) listQty.textContent = state.qty[p.id];
+          };
+          $("#detail-plus").onclick = () => {
+            state.qty[p.id] = Math.min(99, (state.qty[p.id] || 1) + 1);
+            $("#detail-qty").textContent = state.qty[p.id];
+            const listQty = $("#qty-"+p.id);
+            if(listQty) listQty.textContent = state.qty[p.id];
+          };
+          $("#detail-add").onclick = () => addToCart(p.id, state.qty[p.id] || 1);
+    
+          // UI Switch
+          $("#homeView").style.display = "none";
+          $("#detailView").style.display = "block";
+          window.scrollTo(0, 0);
+        }
+    
+        function goBackToList(){
+          $("#homeView").style.display = "block";
+          $("#detailView").style.display = "none";
+          window.scrollTo(0, 0);
+        }
+    
+        $("#btnBackToList").addEventListener("click", goBackToList);
+    
+        function render(){
       const list = computeList();
       $("#countAll").textContent = PRODUCTS.length.toString();
       $("#countShown").textContent = list.length.toString();

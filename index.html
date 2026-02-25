@@ -79,199 +79,213 @@
   </header>
 
   <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="hero-main">
-            <h1>오늘의 추천: <span style="color:#d8b4fe">프리미엄</span> 감성 쇼핑</h1>
-            <p>
-              빠르게 탐색하고, 원하는 상품만 골라 담는 “홈페이지 예시” 템플릿입니다.
-              필터/정렬/검색/장바구니 UI가 포함되어 있어 바로 커스터마이징하기 좋습니다.
-            </p>
+    <div id="homeView">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div class="hero-main">
+              <h1>오늘의 추천: <span style="color:#d8b4fe">프리미엄</span> 감성 쇼핑</h1>
+              <p>
+                빠르게 탐색하고, 원하는 상품만 골라 담는 “홈페이지 예시” 템플릿입니다.
+                필터/정렬/검색/장바구니 UI가 포함되어 있어 바로 커스터마이징하기 좋습니다.
+              </p>
 
-            <div class="chips" aria-label="혜택">
-              <span class="chip"><span class="dot"></span> 무료배송 3만원↑</span>
-              <span class="chip">신규회원 10% 쿠폰</span>
-              <span class="chip">당일발송 상품 모음</span>
+              <div class="chips" aria-label="혜택">
+                <span class="chip"><span class="dot"></span> 무료배송 3만원↑</span>
+                <span class="chip">신규회원 10% 쿠폰</span>
+                <span class="chip">당일발송 상품 모음</span>
+              </div>
+
+              <div class="hero-cta">
+                <a class="btn primary" href="#products">지금 쇼핑하기</a>
+                <button class="btn ghost" type="button" id="btnRandomPick">랜덤 추천</button>
+                <button class="btn ghost" type="button" id="btnClear">검색/필터 초기화</button>
+              </div>
+
+              <div class="hero-art" aria-hidden="true"></div>
             </div>
 
-            <div class="hero-cta">
-              <a class="btn primary" href="#products">지금 쇼핑하기</a>
-              <button class="btn ghost" type="button" id="btnRandomPick">랜덤 추천</button>
-              <button class="btn ghost" type="button" id="btnClear">검색/필터 초기화</button>
-            </div>
+            <div class="hero-side">
+              <div class="mini-card">
+                <div class="mini-title">
+                  <h3>이번 주 딜</h3>
+                  <span>~ 일요일 23:59</span>
+                </div>
+                <div class="deals">
+                  <div class="deal">
+                    <div class="left">
+                      <div class="name">데일리 후디</div>
+                      <div class="desc">인기 컬러 재입고</div>
+                    </div>
+                    <span class="pill hot">최대 35%</span>
+                  </div>
+                  <div class="deal">
+                    <div class="left">
+                      <div class="name">무선 이어버드</div>
+                      <div class="desc">노이즈 캔슬링</div>
+                    </div>
+                    <span class="pill">오늘만</span>
+                  </div>
+                </div>
+              </div>
 
-            <div class="hero-art" aria-hidden="true"></div>
+              <div class="mini-card">
+                <div class="mini-title">
+                  <h3>빠른 카테고리</h3>
+                  <span>한 번에 이동</span>
+                </div>
+                <div class="filters" style="margin:0">
+                  <button class="btn small ghost cat" data-cat="패션">패션</button>
+                  <button class="btn small ghost cat" data-cat="테크">테크</button>
+                  <button class="btn small ghost cat" data-cat="리빙">리빙</button>
+                  <button class="btn small ghost cat" data-cat="뷰티">뷰티</button>
+                  <button class="btn small ghost cat" data-cat="푸드">푸드</button>
+                </div>
+                <div class="line"></div>
+                <div class="small">
+                  Tip: 상단 검색창에서 <b>Ctrl + /</b>로 포커스, <b>Enter</b>로 검색 적용.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section class="section" id="products">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>추천 상품</h2>
+              <p>검색/필터/정렬이 즉시 반영되는 데모 상품 목록</p>
+            </div>
+            <div class="small">표시: <span id="countShown">0</span> / <span id="countAll">0</span></div>
           </div>
 
-          <div class="hero-side">
-            <div class="mini-card">
-              <div class="mini-title">
-                <h3>이번 주 딜</h3>
-                <span>~ 일요일 23:59</span>
-              </div>
-              <div class="deals">
-                <div class="deal">
-                  <div class="left">
-                    <div class="name">데일리 후디</div>
-                    <div class="desc">인기 컬러 재입고</div>
-                  </div>
-                  <span class="pill hot">최대 35%</span>
-                </div>
-                <div class="deal">
-                  <div class="left">
-                    <div class="name">무선 이어버드</div>
-                    <div class="desc">노이즈 캔슬링</div>
-                  </div>
-                  <span class="pill">오늘만</span>
-                </div>
-              </div>
-            </div>
+          <div class="filters" aria-label="필터">
+            <label class="select" title="카테고리">
+              <span class="subtle">카테고리</span>
+              <select id="filterCat">
+                <option value="ALL">전체</option>
+                <option value="패션">패션</option>
+                <option value="테크">테크</option>
+                <option value="리빙">리빙</option>
+                <option value="뷰티">뷰티</option>
+                <option value="푸드">푸드</option>
+              </select>
+            </label>
 
-            <div class="mini-card">
-              <div class="mini-title">
-                <h3>빠른 카테고리</h3>
-                <span>한 번에 이동</span>
-              </div>
-              <div class="filters" style="margin:0">
-                <button class="btn small ghost cat" data-cat="패션">패션</button>
-                <button class="btn small ghost cat" data-cat="테크">테크</button>
-                <button class="btn small ghost cat" data-cat="리빙">리빙</button>
-                <button class="btn small ghost cat" data-cat="뷰티">뷰티</button>
-                <button class="btn small ghost cat" data-cat="푸드">푸드</button>
-              </div>
+            <label class="select" title="정렬">
+              <span class="subtle">정렬</span>
+              <select id="sortBy">
+                <option value="RECO">추천순</option>
+                <option value="PRICE_ASC">가격 낮은순</option>
+                <option value="PRICE_DESC">가격 높은순</option>
+                <option value="RATING_DESC">평점 높은순</option>
+                <option value="NEW_DESC">신상품순</option>
+              </select>
+            </label>
+
+            <label class="toggle" title="세일만 보기">
+              <input id="onlySale" type="checkbox" />
+              <span>세일만</span>
+            </label>
+
+            <label class="toggle" title="무료배송만 보기">
+              <input id="onlyShipFree" type="checkbox" />
+              <span>무료배송</span>
+            </label>
+
+            <label class="toggle" title="재고 있음만 보기">
+              <input id="onlyInStock" type="checkbox" />
+              <span>재고 있음</span>
+            </label>
+          </div>
+
+          <div class="grid" id="grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- BRANDS / SUPPORT -->
+      <section class="section" id="brands">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>브랜드 라운지</h2>
+              <p>로고/배너/프로모션 영역(커스터마이징용)</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="mini-card" style="grid-column: span 4;">
+              <h3 style="margin:0 0 10px;">Brand A</h3>
+              <div class="small">미니 배너 영역 / 브랜드 스토리</div>
+              <div class="line"></div>
+              <button class="btn small primary" type="button">브랜드 보러가기</button>
+            </div>
+            <div class="mini-card" style="grid-column: span 4;">
+              <h3 style="margin:0 0 10px;">Brand B</h3>
+              <div class="small">시즌 컬렉션 / 추천</div>
+              <div class="line"></div>
+              <button class="btn small ghost" type="button">컬렉션</button>
+            </div>
+            <div class="mini-card" style="grid-column: span 4;">
+              <h3 style="margin:0 0 10px;">Brand C</h3>
+              <div class="small">기획전 / 쿠폰</div>
+              <div class="line"></div>
+              <button class="btn small ghost" type="button">쿠폰 받기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="support">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>고객센터</h2>
+              <p>FAQ/공지/문의 버튼 영역</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="mini-card" style="grid-column: span 6;">
+              <h3 style="margin:0 0 10px;">자주 묻는 질문</h3>
+              <div class="small">배송 / 교환 / 환불 / 결제 / 쿠폰</div>
               <div class="line"></div>
               <div class="small">
-                Tip: 상단 검색창에서 <b>Ctrl + /</b>로 포커스, <b>Enter</b>로 검색 적용.
+                • 평균 배송 1~2일<br/>
+                • 교환/반품 7일 이내 가능<br/>
+                • 문의: help@vibeshop.example
+              </div>
+            </div>
+            <div class="mini-card" style="grid-column: span 6;">
+              <h3 style="margin:0 0 10px;">공지사항</h3>
+              <div class="small">서비스 점검 / 이벤트 안내</div>
+              <div class="line"></div>
+              <div class="small">
+                • [안내] 신규회원 쿠폰 지급 정책<br/>
+                • [이벤트] 주간 특가 상품 오픈<br/>
+                • [점검] 결제 시스템 업데이트
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- PRODUCTS -->
-    <section class="section" id="products">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>추천 상품</h2>
-            <p>검색/필터/정렬이 즉시 반영되는 데모 상품 목록</p>
-          </div>
-          <div class="small">표시: <span id="countShown">0</span> / <span id="countAll">0</span></div>
+    <!-- PRODUCT DETAIL VIEW -->
+    <div id="detailView" style="display:none">
+      <section class="section">
+        <div class="container">
+          <button class="btn ghost" type="button" id="btnBackToList" style="margin-bottom:20px">
+            ← 목록으로 돌아가기
+          </button>
+          <div id="detailContent"></div>
         </div>
-
-        <div class="filters" aria-label="필터">
-          <label class="select" title="카테고리">
-            <span class="subtle">카테고리</span>
-            <select id="filterCat">
-              <option value="ALL">전체</option>
-              <option value="패션">패션</option>
-              <option value="테크">테크</option>
-              <option value="리빙">리빙</option>
-              <option value="뷰티">뷰티</option>
-              <option value="푸드">푸드</option>
-            </select>
-          </label>
-
-          <label class="select" title="정렬">
-            <span class="subtle">정렬</span>
-            <select id="sortBy">
-              <option value="RECO">추천순</option>
-              <option value="PRICE_ASC">가격 낮은순</option>
-              <option value="PRICE_DESC">가격 높은순</option>
-              <option value="RATING_DESC">평점 높은순</option>
-              <option value="NEW_DESC">신상품순</option>
-            </select>
-          </label>
-
-          <label class="toggle" title="세일만 보기">
-            <input id="onlySale" type="checkbox" />
-            <span>세일만</span>
-          </label>
-
-          <label class="toggle" title="무료배송만 보기">
-            <input id="onlyShipFree" type="checkbox" />
-            <span>무료배송</span>
-          </label>
-
-          <label class="toggle" title="재고 있음만 보기">
-            <input id="onlyInStock" type="checkbox" />
-            <span>재고 있음</span>
-          </label>
-        </div>
-
-        <div class="grid" id="grid" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- BRANDS / SUPPORT -->
-    <section class="section" id="brands">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>브랜드 라운지</h2>
-            <p>로고/배너/프로모션 영역(커스터마이징용)</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <div class="mini-card" style="grid-column: span 4;">
-            <h3 style="margin:0 0 10px;">Brand A</h3>
-            <div class="small">미니 배너 영역 / 브랜드 스토리</div>
-            <div class="line"></div>
-            <button class="btn small primary" type="button">브랜드 보러가기</button>
-          </div>
-          <div class="mini-card" style="grid-column: span 4;">
-            <h3 style="margin:0 0 10px;">Brand B</h3>
-            <div class="small">시즌 컬렉션 / 추천</div>
-            <div class="line"></div>
-            <button class="btn small ghost" type="button">컬렉션</button>
-          </div>
-          <div class="mini-card" style="grid-column: span 4;">
-            <h3 style="margin:0 0 10px;">Brand C</h3>
-            <div class="small">기획전 / 쿠폰</div>
-            <div class="line"></div>
-            <button class="btn small ghost" type="button">쿠폰 받기</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="support">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>고객센터</h2>
-            <p>FAQ/공지/문의 버튼 영역</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <div class="mini-card" style="grid-column: span 6;">
-            <h3 style="margin:0 0 10px;">자주 묻는 질문</h3>
-            <div class="small">배송 / 교환 / 환불 / 결제 / 쿠폰</div>
-            <div class="line"></div>
-            <div class="small">
-              • 평균 배송 1~2일<br/>
-              • 교환/반품 7일 이내 가능<br/>
-              • 문의: help@vibeshop.example
-            </div>
-          </div>
-          <div class="mini-card" style="grid-column: span 6;">
-            <h3 style="margin:0 0 10px;">공지사항</h3>
-            <div class="small">서비스 점검 / 이벤트 안내</div>
-            <div class="line"></div>
-            <div class="small">
-              • [안내] 신규회원 쿠폰 지급 정책<br/>
-              • [이벤트] 주간 특가 상품 오픈<br/>
-              • [점검] 결제 시스템 업데이트
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <footer role="contentinfo">
