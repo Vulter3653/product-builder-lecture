@@ -27,7 +27,7 @@
       sort: "RECO",
       onlySale: false,
       onlyShipFree: false,
-      onlyInStock: true,
+      onlyInStock: false,
       qty: Object.fromEntries(PRODUCTS.map(p => [p.id, 1])),
       wish: new Set(),
       cart: new Map(), // id -> {id, qty}
@@ -317,7 +317,7 @@
       $("#sortBy").value = "RECO";
       state.onlySale = false; $("#onlySale").checked = false;
       state.onlyShipFree = false; $("#onlyShipFree").checked = false;
-      state.onlyInStock = true; $("#onlyInStock").checked = true;
+      state.onlyInStock = false; $("#onlyInStock").checked = false;
       render();
       toast("초기화 완료");
     });
